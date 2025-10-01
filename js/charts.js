@@ -130,21 +130,32 @@ class ChartManager {
     renderChart(canvasId, data, chartType) {
         const canvas = document.getElementById(canvasId);
         if (!canvas) {
+            console.error(`Canvas element ${canvasId} not found`);
             return;
         }
 
         const ctx = canvas.getContext('2d');
         if (!ctx) {
+            console.error(`Could not get 2D context for canvas ${canvasId}`);
             return;
         }
 
         const rect = canvas.getBoundingClientRect();
+        console.log(`Rendering ${canvasId}`, { rect, canvasWidth: canvas.width, canvasHeight: canvas.height });
 
         // Store chart data for resizing
         this.charts[canvasId] = { data, type: chartType };
 
+        // Clear canvas and ensure proper scaling
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+
+        console.log(`Canvas dimensions after scaling:`, { width: canvas.width, height: canvas.height, scale: dpr });
+
         // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, rect.width, rect.height);
 
         if (!data.datasets || data.datasets.length === 0) return;
 
@@ -375,8 +386,13 @@ export function initCharts() {
 
 export function updateCharts(rows, kpis) {
     if (!rows || rows.length === 0) {
+        console.warn('No chart data available:', { rows, kpis });
+        // Show fallback data if calculation failed
+        chartManager.updateCharts(exampleData.rows, exampleData.kpis);
         return;
     }
+
+    console.log('Updating charts with data:', { rowsCount: rows.length, sampleRow: rows[0], kpis });
     chartManager.updateCharts(rows, kpis);
 }
 

@@ -292,6 +292,7 @@ class RetirementCalculator {
                 this.displayResults(defaultRows, defaultKpis);
                 updateCharts(defaultRows, defaultKpis);
             } else {
+                console.log('Calculator results:', { rows, kpis });
                 this.displayResults(rows, kpis);
                 updateCharts(rows, kpis);
             }
