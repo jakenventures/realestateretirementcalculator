@@ -1,0 +1,41 @@
+[build]
+  publish = "."
+
+# Global headers for performance & security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    cache-control = "public, max-age=600"
+
+# Cache static assets longer
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/public/*"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
+
+# SPA routing: let the client-side router handle deep links
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Context-specific (optional): preview branches use shorter caching
+[context.deploy-preview.headers]
+  [[context.deploy-preview.headers]]
+    for = "/*"
+    [context.deploy-preview.headers.values]
+      cache-control = "public, max-age=0, must-revalidate"

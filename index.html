@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--
+    README: Real Estate Retirement Calculator - Deployment Instructions
+
+    1. Git Setup & Push:
+    git init
+    git branch -M main
+    git remote add origin https://github.com/jakenventures/realestateretirementcalculator.git
+    git add .
+    git commit -m "Initial commit: Real Estate Retirement Calculator"
+    git push -u origin main
+
+    2. Netlify Deployment:
+    - Go to Netlify, click "Add new site" → "Import from Git"
+    - Choose GitHub, select jakenventures/realestateretirementcalculator
+    - Build command: (leave blank)
+    - Publish directory: .
+    - Add environment variable: BASE_URL = your Netlify site URL (e.g., https://realestateretirementcalculator.netlify.app)
+    - After adding custom domain, update BASE_URL and re-deploy
+
+    3. Project Structure:
+    - /css/: base.css (critical), theme.css (styles)
+    - /js/: calculator.js, seo.js, router.js, pages.js, forms.js, charts.js
+    - /public/: icons/, og/ (Open Graph images)
+    - Static files: sitemap.xml, robots.txt, netlify.toml, _redirects
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your real estate retirement timeline with our DSCR mortgage calculator. See when you'll reach financial independence through rental properties. Free loan terms available.">
+    <meta name="keywords" content="real estate retirement calculator, DSCR calculator, rental property retirement, real estate financial independence, mortgage retirement planning">
+
+    <!-- SEO Meta Tags (managed by seo.js) -->
+    <title>Real Estate Retirement Calculator | Plan Your Rental Property Retirement</title>
+    <link rel="canonical" href="https://realestateretirementcalculator.netlify.app/">
+    <link rel="icon" type="image/x-icon" href="/public/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/icons/apple-touch-icon.png">
+
+    <!-- Open Graph (managed by seo.js) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://realestateretirementcalculator.netlify.app/">
+    <meta property="og:title" content="Real Estate Retirement Calculator">
+    <meta property="og:description" content="Calculate your retirement timeline through rental properties. Get personalized loan terms.">
+    <meta property="og:image" content="https://realestateretirementcalculator.netlify.app/public/og/homepage.png">
+
+    <!-- Twitter Card (managed by seo.js) -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Critical CSS inline -->
+    <style>
+        /* Critical above-the-fold styles */
+        :root {
+            --primary: #FFD300;
+            --ink: #111111;
+            --white: #FFFFFF;
+            --surface: #F5F5F5;
+            --border: #EDEDED;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--ink);
+            background: var(--surface);
+        }
+
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+
+        nav { position: sticky; top: 0; background: var(--white); border-bottom: 1px solid var(--border); z-index: 100; }
+
+        .nav-content { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+
+        .logo { font-weight: bold; font-size: 1.25rem; color: var(--primary); }
+
+        .nav-links { display: flex; gap: 1rem; }
+
+        .nav-links a { color: var(--ink); text-decoration: none; padding: 0.5rem 1rem; border-radius: 6px; transition: background 0.2s; }
+
+        .nav-links a:hover, .nav-links a:focus { background: var(--surface); }
+
+        .hero { text-align: center; padding: 3rem 1rem; background: linear-gradient(135deg, var(--white) 0%, var(--surface) 100%); }
+
+        .hero h1 { font-size: 2.5rem; font-weight: bold; margin-bottom: 1rem; color: var(--ink); max-width: 800px; margin-left: auto; margin-right: auto; }
+
+        .hero .subtitle { font-size: 1.25rem; color: #666; margin-bottom: 2rem; }
+
+        .btn { display: inline-block; background: var(--primary); color: var(--ink); padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+
+        .btn:hover, .btn:focus { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,211,0,0.3); }
+
+        .btn-secondary { background: transparent; border: 2px solid var(--primary); color: var(--ink); }
+
+        .calculator-section { padding: 3rem 0; }
+
+        .calculator-card { background: var(--white); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+
+        .form-group { display: flex; flex-direction: column; }
+
+        .form-group label { font-weight: 600; margin-bottom: 0.5rem; }
+
+        .form-group input, .form-group select { padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem; }
+
+        .results { margin-top: 2rem; }
+
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+
+        .result-card { background: var(--white); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary); }
+
+        .chart-container { background: var(--white); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+
+        .cta-section { background: var(--primary); color: var(--ink); text-align: center; padding: 3rem 1rem; }
+
+        .cta-section h2 { font-size: 2rem; margin-bottom: 1rem; }
+
+        .trust-badges { display: flex; justify-content: center; gap: 2rem; margin: 2rem 0; opacity: 0.8; }
+
+        footer { background: var(--ink); color: var(--white); text-align: center; padding: 2rem 1rem; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .results-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Loading states */
+        .loading { opacity: 0.6; pointer-events: none; }
+    </style>
+
+    <!-- Defer non-critical CSS -->
+    <link rel="preload" href="/css/theme.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/css/theme.css"></noscript>
+
+    <!-- Service Worker (optional performance enhancement) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful');
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container nav-content">
+                <a href="/" class="logo">Real Estate Retirement Calculator</a>
+                <div class="nav-links">
+                    <a href="/retirement-calculator">Calculator</a>
+                    <a href="/house-hacking">House Hacking</a>
+                    <a href="/beginner">Beginner Guide</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="app">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1>Will Real Estate Retire You On Time?</h1>
+                <p class="subtitle">Calculate your retirement timeline through rental property investments with our free DSCR mortgage calculator.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
+                    <a href="https://www.getloanterms.com" target="_blank" rel="noopener" class="btn">Get Personalized Loan Terms</a>
+                    <a href="https://www.jakenfinancegroup.com" target="_blank" rel="noopener" class="btn btn-secondary">Talk to a Real Lender Today</a>
+                </div>
+                <div class="trust-badges">
+                    <div>✓ Licensed Mortgage Banker</div>
+                    <div>✓ No Obligation</div>
+                    <div>✓ Custom Terms Available</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calculator Section -->
+        <section class="calculator-section">
+            <div class="container">
+                <div class="calculator-card">
+                    <h2 style="margin-bottom: 1.5rem; text-align: center;">Your Retirement Calculator</h2>
+
+                    <!-- Personal Information -->
+                    <h3>Personal Details</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="current-age">Current Age</label>
+                            <input type="number" id="current-age" value="35" min="18" max="80">
+                            <small>Years</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="retirement-age">Target Retirement Age</label>
+                            <input type="number" id="retirement-age" value="65" min="50" max="90">
+                            <small>Years</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="current-savings">Current Real Estate Savings</label>
+                            <input type="number" id="current-savings" value="50000" step="1000">
+                            <small>$ (cash on hand for down payments)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="monthly-contribution">Monthly Investment</label>
+                            <input type="number" id="monthly-contribution" value="2000" step="100">
+                            <small>$ (additional savings per month)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="target-income">Target Monthly Retirement Income</label>
+                            <input type="number" id="target-income" value="8000" step="500">
+                            <small>$ (desired cash flow per month)</small>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Information -->
+                    <h3>Property Portfolio</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="starting-doors">Starting Properties</label>
+                            <input type="number" id="starting-doors" value="1" min="0" max="10">
+                            <small>Number of doors you already own</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="avg-price">Average Property Price</label>
+                            <input type="number" id="avg-price" value="300000" step="10000">
+                            <small>$ per property</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="ltv-ratio">Loan-to-Value Ratio</label>
+                            <input type="range" id="ltv-ratio" value="75" min="60" max="80" step="5" oninput="updateLTVDisplay()">
+                            <div style="display: flex; justify-content: space-between;">
+                                <small>60%</small>
+                                <span id="ltv-display">75%</span>
+                                <small>80%</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="interest-rate">Interest Rate (APR)</label>
+                            <input type="number" id="interest-rate" value="6.5" step="0.1" min="3" max="12">
+                            <small>%</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="loan-term">Loan Term</label>
+                            <input type="number" id="loan-term" value="30" min="15" max="30">
+                            <small>Years</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="closing-costs">Closing & Financing Costs</label>
+                            <input type="number" id="closing-costs" value="3" step="0.5" min="1" max="8">
+                            <small>% of property price</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="vacancy-rate">Vacancy Rate</label>
+                            <input type="number" id="vacancy-rate" value="5" step="0.5" min="0" max="15">
+                            <small>% (annual vacancy allowance)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="maintenance-rate">Maintenance Costs</label>
+                            <input type="number" id="maintenance-rate" value="1" step="0.25" min="0.5" max="3">
+                            <small>% of rent per year</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="management-rate">Property Management</label>
+                            <input type="number" id="management-rate" value="8" step="0.5" min="0" max="15">
+                            <small>% of gross rent</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="property-tax">Property Taxes</label>
+                            <input type="number" id="property-tax" value="1.2" step="0.1" min="0.5" max="2">
+                            <small>% of property value per year</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="insurance-cost">Insurance Cost</label>
+                            <input type="number" id="insurance-cost" value="1200" step="100">
+                            <small>$ per property per year</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="rent-growth">Annual Rent Growth</label>
+                            <input type="number" id="rent-growth" value="3" step="0.5" min="0" max="8">
+                            <small>%</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="appreciation">Property Appreciation</label>
+                            <input type="number" id="appreciation" value="4" step="0.5" min="0" max="10">
+                            <small>% per year</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="expense-inflation">Expense Inflation</label>
+                            <input type="number" id="expense-inflation" value="2.5" step="0.25" min="0" max="5">
+                            <small>% per year</small>
+                        </div>
+                    </div>
+
+                    <!-- Lending Criteria -->
+                    <h3>Lending & Investment Strategy</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="dscr-target">Target DSCR</label>
+                            <input type="number" id="dscr-target" value="1.20" step="0.05" min="1.05" max="1.50">
+                            <small>Debt Service Coverage Ratio (minimum to qualify)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="refi-ltv-threshold">Refi LTV Threshold</label>
+                            <input type="number" id="refi-ltv-threshold" value="75" step="5" min="60" max="90">
+                            <small>% (when to refinance to pull cash out)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="refi-seasoning">Minimum Seasoning Period</label>
+                            <input type="number" id="refi-seasoning" value="6" min="0" max="24">
+                            <small>Months before refinancing</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="refi-rate-delta">Refi Rate Improvement</label>
+                            <input type="number" id="refi-rate-delta" value="0.75" step="0.25" min="0" max="2">
+                            <small>% better rate required to refinance</small>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <button id="calculate-btn" class="btn" onclick="calculateRetirement()">Calculate Your Retirement Plan</button>
+                        <button id="reset-btn" class="btn btn-secondary" onclick="resetCalculator()">Reset to Defaults</button>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div id="results-container" style="display: none;">
+                    <h2 style="text-align: center; margin-bottom: 2rem;">Your Retirement Analysis</h2>
+
+                    <!-- Key Metrics -->
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <h3>Time to Target Income</h3>
+                            <div id="time-to-target" class="metric-value">-- years</div>
+                        </div>
+                        <div class="result-card">
+                            <h3>Properties Needed</h3>
+                            <div id="properties-needed" class="metric-value">-- doors</div>
+                        </div>
+                        <div class="result-card">
+                            <h3>Peak Cash Flow</h3>
+                            <div id="peak-cashflow" class="metric-value">$--/month</div>
+                        </div>
+                        <div class="result-card">
+                            <h3>Portfolio Value</h3>
+                            <div id="portfolio-value" class="metric-value">$--</div>
+                        </div>
+                        <div class="result-card">
+                            <h3>First Refinance</h3>
+                            <div id="first-refi-age" class="metric-value">Age --</div>
+                        </div>
+                        <div class="result-card">
+                            <h3>Cash Invested</h3>
+                            <div id="cash-invested" class="metric-value">$--</div>
+                        </div>
+                    </div>
+
+                    <!-- Charts -->
+                    <div class="chart-container">
+                        <h3>Cash Flow vs Target Income</h3>
+                        <canvas id="cashflow-chart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Portfolio Growth: Equity vs Loan Balance</h3>
+                        <canvas id="portfolio-chart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Properties Owned Over Time</h3>
+                        <canvas id="doors-chart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>DSCR Trend (Debt Service Coverage Ratio)</h3>
+                        <canvas id="dscr-chart" width="400" height="200"></canvas>
+                    </div>
+
+                    <!-- Detailed Table (Collapsible) -->
+                    <div class="result-card">
+                        <details>
+                            <summary style="cursor: pointer; font-weight: 600; margin-bottom: 1rem;">📊 Year-by-Year Breakdown (click to expand)</summary>
+                            <div style="overflow-x: auto;">
+                                <table id="yearly-table" style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: var(--surface);">
+                                            <th style="padding: 0.5rem; border: 1px solid var(--border); text-align: left;">Year</th>
+                                            <th style="padding: 0.5rem; border: 1px solid var(--border); text-align: left;">Age</th>
+                                            <th style="padding: 0.5rem; border: 1px solid var(--border); text-align: right;">Properties</th>
+                                            <th style="padding: 0.5rem; border: 1px solid var(--border); text-align: right;">Equity</th>
+                                            <th style="padding: 0.5rem; border: 1px solid var(--border); text-align: right;">Loan Balance</th>
+                                            <th style="padding: 0.5rem; border: 1px solid var(--border); text-align: right;">Monthly Rent</th>
+                                            <th style="padding: 0.5rem; border: 1px solid var(--border); text-align: right;">NOI</th>
+                                            <th style="padding: 0.5rem; border: 1px solid var(--border); text-align: right;">DSCR</th>
+                                            <th style="padding: 0.5rem; border: 1px solid var(--border); text-align: right;">Cash Flow/Month</th>
+                                            <th style="padding: 0.5rem; border: 1px solid var(--border); text-align: right;">Cumulative Cash In</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="yearly-body"></tbody>
+                                </table>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- What-If Scenarios -->
+                    <div class="chart-container">
+                        <h3>What-If Scenarios</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                            <div class="result-card">
+                                <h4>Lower Monthly Investment (-$250)</h4>
+                                <div id="scenario-lower-contrib" class="metric-value">Target in -- years</div>
+                            </div>
+                            <div class="result-card">
+                                <h4>Higher Monthly Investment (+$250)</h4>
+                                <div id="scenario-higher-contrib" class="metric-value">Target in -- years</div>
+                            </div>
+                            <div class="result-card">
+                                <h4>Lower LTV (70%)</h4>
+                                <div id="scenario-lower-ltv" class="metric-value">Target in -- years</div>
+                            </div>
+                            <div class="result-card">
+                                <h4>Higher LTV (80%)</h4>
+                                <div id="scenario-higher-ltv" class="metric-value">Target in -- years</div>
+                            </div>
+                            <div class="result-card">
+                                <h4>Rate Shock (+1.5%)</h4>
+                                <div id="scenario-rate-shock" class="metric-value">Target in -- years</div>
+                            </div>
+                            <div class="result-card">
+                                <h4>$10k CapEx at Year 5</h4>
+                                <div id="scenario-capex" class="metric-value">Target in -- years</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <p style="font-style: italic; color: #666; margin-bottom: 1rem;">Ready to make this plan a reality?</p>
+                        <a href="https://www.getloanterms.com" target="_blank" rel="noopener" class="btn">Get Personalized Loan Terms</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>Ready to Finance Your Real Estate Retirement?</h2>
+                <p>Get personalized loan terms tailored to your investment strategy. No obligations, just great rates.</p>
+                <a href="https://www.jakenfinancegroup.com" target="_blank" rel="noopener" class="btn">Talk to a Real Lender Today</a>
+            </div>
+        </section>
+
+        <!-- Lead Capture Form -->
+        <section style="padding: 3rem 0; background: var(--white);">
+            <div class="container">
+                <div class="calculator-card" style="max-width: 600px; margin: 0 auto;">
+                    <h2 style="text-align: center; margin-bottom: 1rem;">Get Your Personalized Loan Terms</h2>
+                    <p style="text-align: center; color: #666; margin-bottom: 2rem;">Enter your details below and we'll provide custom financing options for your retirement plan.</p>
+
+                    <form id="lead-form" method="POST">
+                        <input type="hidden" name="form-name" value="lead-capture">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="form-name">Full Name</label>
+                                <input type="text" id="form-name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-email">Email Address</label>
+                                <input type="email" id="form-email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-phone">Phone Number</label>
+                                <input type="tel" id="form-phone" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-market">Target Market</label>
+                                <select id="form-market" name="market">
+                                    <option value="">Select Market</option>
+                                    <option value="chicago">Chicago, IL</option>
+                                    <option value="orlando">Orlando, FL</option>
+                                    <option value="austin">Austin, TX</option>
+                                    <option value="phoenix">Phoenix, AZ</option>
+                                    <option value="miami">Miami, FL</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-strategy">Investment Strategy</label>
+                                <select id="form-strategy" name="strategy">
+                                    <option value="">Select Strategy</option>
+                                    <option value="house-hacking">House Hacking</option>
+                                    <option value="brrrr">BRRRR</option>
+                                    <option value="long-term">Long-term Rental</option>
+                                    <option value="short-term">Short-term Rental</option>
+                                    <option value="syndication">Syndication</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-credit">Estimated Credit Band</label>
+                                <select id="form-credit" name="credit">
+                                    <option value="">Select Credit Range</option>
+                                    <option value="excellent">740+</option>
+                                    <option value="good">680-739</option>
+                                    <option value="fair">620-679</option>
+                                    <option value="poor">< 620</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-experience">Real Estate Experience</label>
+                                <select id="form-experience" name="experience">
+                                    <option value="">Select Experience</option>
+                                    <option value="none">First-time Investor</option>
+                                    <option value="1-3">1-3 Properties</option>
+                                    <option value="4-10">4-10 Properties</option>
+                                    <option value="10+">10+ Properties</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 2rem;">
+                            <button type="submit" class="btn">Get My Loan Terms</button>
+                            <p style="font-size: 0.875rem; color: #666; margin-top: 1rem;">By submitting, you agree to our <a href="https://www.jakenfinancegroup.com/privacy" target="_blank">Privacy Policy</a>. We will never share your information.</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="trust-badges" style="color: var(--white); margin-bottom: 1rem;">
+                <div>✓ Licensed Mortgage Banker | NMLS ID 123456</div>
+                <div>✓ Rates as low as 5.99% APR</div>
+                <div>✓ Portfolio & Investment Financing</div>
+            </div>
+            <p><strong>Real Estate Retirement Calculator</strong> - Educational tool for estimating retirement timelines through rental property investments.</p>
+            <p style="margin: 1rem 0;"><em>Not a commitment to lend. Terms subject to underwriting, property valuation, market conditions, and investor qualification. This calculator uses assumptions that may not reflect actual market conditions. Consult with a qualified financial advisor.</em></p>
+            <p style="margin-top: 1rem;"><small><a href="https://www.jakenfinancegroup.com" target="_blank" rel="noopener" style="color: var(--primary);">© 2023 Jaken Finance Group</a> | <a href="https://www.jakenfinancegroup.com/privacy" target="_blank" style="color: var(--border);">Privacy Policy</a></small></p>
+        </div>
+    </footer>
+
+    <!-- Load JavaScript Modules -->
+    <script type="module">
+        // Import core modules
+        import { calculateRetirement, resetCalculator } from '/js/calculator.js';
+        import { calculateResults } from '/js/calculator.js?type=results';
+        import { initCharts, updateCharts } from '/js/charts.js';
+        import { initRouter } from '/js/router.js';
+        import { initSEO } from '/js/seo.js';
+        import { initFormHandling } from '/js/forms.js';
+        import { initPages } from '/js/pages.js';
+
+        // Make functions globally available for onclick handlers
+        window.calculateRetirement = calculateRetirement;
+        window.resetCalculator = resetCalculator;
+        window.calculateResults = calculateResults;
+        window.updateCharts = updateCharts;
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', () => {
+            initRouter();
+            initSEO();
+            initCharts();
+            initFormHandling();
+            initPages();
+
+            // Update LTV display on page load
+            updateLTVDisplay();
+        });
+
+        function updateLTVDisplay() {
+            const slider = document.getElementById('ltv-ratio');
+            const display = document.getElementById('ltv-display');
+            display.textContent = slider.value + '%';
+        }
+
+        // Make LTV display function globally available
+        window.updateLTVDisplay = updateLTVDisplay;
+    </script>
+</body>
+</html>

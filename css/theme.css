@@ -1,0 +1,254 @@
+/* Enhanced theme styles - loaded after critical CSS */
+
+/* Form enhancements */
+input:focus, select:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(255,211,0,0.2);
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    width: 100%;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    border: none;
+}
+
+input[type="range"]::-webkit-slider-track {
+    background: var(--border);
+    height: 2px;
+}
+
+input[type="range"]::-moz-range-track {
+    background: var(--border);
+    height: 2px;
+}
+
+/* Metric value styling */
+.metric-value {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+/* Chart containers */
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Accordions/FAQs */
+details {
+    margin: 1rem 0;
+}
+
+details summary {
+    cursor: pointer;
+    font-weight: 600;
+    padding: 1rem;
+    background: var(--surface);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+details[open] summary {
+    margin-bottom: 1rem;
+}
+
+details p {
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+}
+
+/* Trust badges */
+.trust-badges {
+    font-size: 0.875rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Loading state */
+.loading {
+    pointer-events: none;
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--border);
+    border-top: 2px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Enhanced hover effects */
+.btn:hover, .btn:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255,211,0,0.3);
+}
+
+.result-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    transition: all 0.2s ease;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background: var(--surface);
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+}
+
+/* Print styles */
+@media print {
+    nav, .cta-section, .nav-links, footer {
+        display: none !important;
+    }
+
+    .calculator-section, .results {
+        page-break-inside: avoid;
+    }
+
+    .result-card {
+        break-inside: avoid;
+    }
+
+    canvas {
+        page-break-inside: avoid;
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    :root {
+        --primary: #FFD700;
+        --ink: #000000;
+        --white: #FFFFFF;
+        --surface: #F8F8F8;
+        --border: #CCCCCC;
+    }
+}
+
+/* Dark mode (optional enhancement) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --ink: #FFFFFF;
+        --white: #1A1A1A;
+        --surface: #2A2A2A;
+        --border: #444444;
+    }
+
+    body {
+        background: var(--white);
+    }
+}
+
+/* Mobile enhancements */
+@media (max-width: 480px) {
+    .form-grid {
+        gap: 1rem;
+    }
+
+    .calculator-card {
+        padding: 1.5rem;
+    }
+
+    .hero h1 {
+        font-size: 1.75rem;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .trust-badges {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* Accessible focus indicators */
+*:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Skip links for screen readers */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--ink);
+    color: var(--white);
+    padding: 8px;
+    text-decoration: none;
+    z-index: 100;
+    border-radius: 4px;
+}
+
+.skip-link:focus {
+    top: 6px;
+}
