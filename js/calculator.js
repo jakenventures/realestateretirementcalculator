@@ -260,17 +260,21 @@ class RetirementCalculator {
         // Small delay for UX
         setTimeout(() => {
             const params = this.getFormParams();
+            console.log('Calculator parameters:', params);
+
             const { rows, kpis } = this.simulatePlan(params);
+            console.log('Simulation results:', { rowsLength: rows?.length, kpis, firstRow: rows?.[0] });
 
             // Ensure we have at least minimal data for charts
             if (rows.length === 0) {
                 console.warn('No simulation data generated - using defaults');
                 // Use minimal default data if simulation failed
                 const defaultRows = [{ year: 0, age: params.currentAge, doors: 1, monthlyCashFlow: 1200, equity: 75000, loanBalance: 225000, portfolioValue: 300000, dscr: 1.25 }];
-                const defaultKpis = { targetIncome: params.targetIncome, irr: 0, npv: 0 };
-                this.displayResults(defaultRows, kpis);
-                updateCharts(defaultRows, kpis);
+                const defaultKpis = Object.assign({}, kpis, { targetIncome: params.targetIncome });
+                this.displayResults(defaultRows, defaultKpis);
+                updateCharts(defaultRows, defaultKpis);
             } else {
+                console.log('Updating charts with simulation data');
                 this.displayResults(rows, kpis);
                 updateCharts(rows, kpis);
             }
