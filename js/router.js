@@ -458,6 +458,316 @@ class Router {
                 h1: 'Adjustable Rate Retirement Calculator',
                 subtitle: 'Calculate retirement timelines considering adjustable rate mortgages and rate changes.',
                 description: 'Adjustable rate retirement...'
+            },
+
+            // Additional SEO Pages - Cities and Markets
+            '/city/atlanta': {
+                path: '/city/atlanta',
+                title: 'Atlanta Real Estate Retirement Calculator - Southern Rental Markets',
+                h1: 'Atlanta Real Estate Retirement',
+                subtitle: 'Calculate retirement opportunities in Atlanta\'s highest-growth rental property market.',
+                description: 'Atlanta real estate retirement calculator...'
+            },
+
+            '/city/denver': {
+                path: '/city/denver',
+                title: 'Denver Real Estate Retirement Calculator - Mile High City Investments',
+                h1: 'Denver Real Estate Retirement',
+                subtitle: 'Calculate investment potential in Denver\'s booming rental and commercial markets.',
+                description: 'Denver real estate retirement...'
+            },
+
+            '/city/seattle': {
+                path: '/city/seattle',
+                title: 'Seattle Real Estate Retirement Calculator - Pacific Northwest Markets',
+                h1: 'Seattle Real Estate Retirement',
+                subtitle: 'Calculate retirement income potential in Seattle and Puget Sound real estate.',
+                description: 'Seattle real estate retirement...'
+            },
+
+            '/city/denver': {
+                path: '/city/denver',
+                title: 'Denver Real Estate Retirement Calculator - Mile High Investments',
+                h1: 'Denver Real Estate Retirement',
+                subtitle: 'Calculate retirement potential in Denver\'s growing mountain west market.',
+                description: 'Denver real estate retirement calculator...'
+            },
+
+            '/city/charlotte': {
+                path: '/city/charlotte',
+                title: 'Charlotte Real Estate Retirement Calculator - Queen City Investments',
+                h1: 'Charlotte Real Estate Retirement',
+                subtitle: 'Calculate NC real estate retirement in Charlotte\'s corporate and job growth corridor.',
+                description: 'Charlotte real estate retirement...'
+            },
+
+            '/city/nashville': {
+                path: '/city/nashville',
+                title: 'Nashville Real Estate Retirement Calculator - Music City Rentals',
+                h1: 'Nashville Real Estate Retirement',
+                subtitle: 'Discover retirement income potential in Nashville\'s booming music and healthcare industries.',
+                description: 'Nashville real estate retirement...'
+            },
+
+            '/city/tampa': {
+                path: '/city/tampa',
+                title: 'Tampa Real Estate Retirement Calculator - Florida Gulf Coast',
+                h1: 'Tampa Real Estate Retirement',
+                subtitle: 'Calculate Tampa Bay real estate retirement potential and affordable Florida markets.',
+                description: 'Tampa real estate retirement calculator...'
+            },
+
+            '/city/raleigh': {
+                path: '/city/raleigh',
+                title: 'Raleigh Real Estate Retirement Calculator - Research Triangle',
+                h1: 'Raleigh Real Estate Retirement',
+                subtitle: 'Calculate retirement income from Research Triangle\'s tech and university growth.',
+                description: 'Raleigh real estate retirement...'
+            },
+
+            '/city/pittsburgh': {
+                path: '/city/pittsburgh',
+                title: 'Pittsburgh Real Estate Retirement Calculator - Rust Belt Renaissance',
+                h1: 'Pittsburgh Real Estate Retirement',
+                subtitle: 'Discover affordable retirement real estate in Pittsburgh\'s revitalized rental markets.',
+                description: 'Pittsburgh real estate retirement...'
+            },
+
+            '/city/boise': {
+                path: '/city/boise',
+                title: 'Boise Real Estate Retirement Calculator - Idaho Growth Markets',
+                h1: 'Boise Real Estate Retirement',
+                subtitle: 'Calculate retirement potential in Boise\'s affordable mountain west real estate.',
+                description: 'Boise real estate retirement calculator...'
+            },
+
+            // New Strategy Pages
+            '/fix-and-flip-vs-rental': {
+                path: '/fix-and-flip-vs-rental',
+                title: 'Fix and Flip vs Long-Term Rental Retirement Calculator',
+                h1: 'Fix and Flip vs Long-Term Rentals',
+                subtitle: 'Compare fix-and-flip profits vs rental property retirement income - which strategy wins?',
+                description: 'Fix and flip vs rental retirement comparison...'
+            },
+
+            '/portfolio-loans': {
+                path: '/portfolio-loans',
+                title: 'Portfolio Loans Retirement Calculator - Private Lending Options',
+                h1: 'Portfolio Loans for Retirement',
+                subtitle: 'Calculate retirement acceleration using portfolio lenders and private money financing.',
+                description: 'Portfolio loans retirement calculator...'
+            },
+
+            '/hard-money-lending': {
+                path: '/hard-money-lending',
+                title: 'Hard Money Retirement Calculator - Speedy Investment Financing',
+                h1: 'Hard Money for Retirement',
+                subtitle: 'Calculate deal speed and profits using hard money lenders for rapid property acquisitions.',
+                description: 'Hard money retirement financing...'
+            },
+
+            '/seller-financing': {
+                path: '/seller-financing',
+                title: 'Seller Financing Retirement Calculator - No Bank Loan Needed',
+                h1: 'Seller Financing Retirement',
+                subtitle: 'Calculate retirement potential using owner financing and seller carry-back terms.',
+                description: 'Seller financing retirement calculator...'
+            },
+
+            '/partnership-investing': {
+                path: '/partnership-investing',
+                title: 'Real Estate Partnerships Retirement Calculator - Joint Venture Investing',
+                h1: 'Partnership Investing for Retirement',
+                subtitle: 'Calculate leveraged returns using real estate joint ventures and partnership investing.',
+                description: 'Partnership investing retirement...'
+            },
+
+            '/wholesale-real-estate': {
+                path: '/wholesale-real-estate',
+                title: 'Wholesale Real Estate Retirement Calculator - Virtual Real Estate',
+                h1: 'Wholesale Real Estate Retirement',
+                subtitle: 'Calculate assignment fee profits and wholesale real estate retirement income.',
+                description: 'Wholesale real estate retirement...'
+            },
+
+            '/turnkey-rentals': {
+                path: '/turnkey-rentals',
+                title: 'Turnkey Rentals Retirement Calculator - Managed Investment Properties',
+                h1: 'Turnkey Rentals Retirement',
+                subtitle: 'Calculate hands-off retirement income from professionally managed rental properties.',
+                description: 'Turnkey rentals retirement calculator...'
+            },
+
+            '/real-estate-tax-lien': {
+                path: '/real-estate-tax-lien',
+                title: 'Tax Lien Retirement Calculator - Certificate Investing',
+                h1: 'Tax Lien Certificate Retirement',
+                subtitle: 'Calculate passive returns from tax lien certificates and county tax sales.',
+                description: 'Tax lien retirement investing...'
+            },
+
+            // State-Level Pages
+            '/state/arizona': {
+                path: '/state/arizona',
+                title: 'Arizona Real Estate Retirement Calculator - Grand Canyon State',
+                h1: 'Arizona Real Estate Retirement',
+                subtitle: 'Calculate retirement potential across Arizona markets with Phoenix and Tucson focus.',
+                description: 'Arizona real estate retirement calculator...'
+            },
+
+            '/state/north-carolina': {
+                path: '/state/north-carolina',
+                title: 'North Carolina Real Estate Retirement Calculator - Tar Heel State',
+                h1: 'North Carolina Real Estate Retirement',
+                subtitle: 'Discover Charlotte, Raleigh, and NC mountain rental investment opportunities.',
+                description: 'North Carolina real estate retirement...'
+            },
+
+            '/state/washington': {
+                path: '/state/washington',
+                title: 'Washington State Real Estate Retirement Calculator - Evergreen State',
+                h1: 'Washington Real Estate Retirement',
+                subtitle: 'Calculate Seattle area retirement potential and Pacific Northwest markets.',
+                description: 'Washington state real estate retirement...'
+            },
+
+            '/state/colorado': {
+                path: '/state/colorado',
+                title: 'Colorado Real Estate Retirement Calculator - Centennial State',
+                h1: 'Colorado Real Estate Retirement',
+                subtitle: 'Plan retirement in Denver, Boulder, and Colorado mountain rental markets.',
+                description: 'Colorado real estate retirement calculator...'
+            },
+
+            '/state/tennessee': {
+                path: '/state/tennessee',
+                title: 'Tennessee Real Estate Retirement Calculator - Volunteer State',
+                h1: 'Tennessee Real Estate Retirement',
+                subtitle: 'Calculate Nashville, Knoxville, and Chattanooga real estate retirement income.',
+                description: 'Tennessee real estate retirement...'
+            },
+
+            // Educational Content Pages
+            '/real-estate-passive-income': {
+                path: '/real-estate-passive-income',
+                title: 'Real Estate Passive Income Retirement - Build Wealth While You Sleep',
+                h1: 'Real Estate Passive Income',
+                subtitle: 'Learn how rental properties create true passive income for retirement and financial freedom.',
+                description: 'Real estate passive income for retirement...'
+            },
+
+            '/1031-exchange-retirement': {
+                path: '/1031-exchange-retirement',
+                title: '1031 Exchange Retirement Calculator - Tax-Deferred Real Estate Growth',
+                h1: '1031 Exchange for Retirement',
+                subtitle: 'Calculate tax-deferred growth using 1031 exchanges to accelerate retirement wealth.',
+                description: '1031 exchange retirement planning...'
+            },
+
+            '/real-estate-depreciation': {
+                path: '/real-estate-depreciation',
+                title: 'Real Estate Depreciation Retirement Calculator - Tax Shield Benefits',
+                h1: 'Real Estate Depreciation Retirement',
+                subtitle: 'Calculate retirement tax benefits from rental property depreciation deductions.',
+                description: 'Real estate depreciation retirement...'
+            },
+
+            '/vacation-rental-tax': {
+                path: '/vacation-rental-tax',
+                title: 'Vacation Rental Tax Retirement Calculator - STR Tax Optimization',
+                h1: 'Vacation Rental Tax Strategies',
+                subtitle: 'Calculate tax-advantaged retirement income from short-term rental investments.',
+                description: 'Vacation rental tax retirement...'
+            },
+
+            '/real-estate-crowdfunding': {
+                path: '/real-estate-crowdfunding',
+                title: 'Real Estate Crowdfunding Retirement Calculator - Small Investor Platforms',
+                h1: 'Real Estate Crowdfunding Retirement',
+                subtitle: 'Calculate passive returns from real estate crowdfunding platforms for retirement.',
+                description: 'Real estate crowdfunding retirement...'
+            },
+
+            '/bridge-loans': {
+                path: '/bridge-loans',
+                title: 'Bridge Loan Retirement Calculator - Interim Financing Solutions',
+                h1: 'Bridge Loans for Retirement',
+                subtitle: 'Calculate quick financing solutions for real estate retirement deal flow.',
+                description: 'Bridge loans retirement calculator...'
+            },
+
+            '/private-lenders': {
+                path: '/private-lenders',
+                title: 'Private Lenders Retirement Calculator - Alternative Investment Financing',
+                h1: 'Private Lenders for Retirement',
+                subtitle: 'Discover private money lenders for faster real estate retirement wealth building.',
+                description: 'Private lenders retirement financing...'
+            },
+
+            '/lease-options': {
+                path: '/lease-options',
+                title: 'Lease Options Retirement Calculator - Virtually Rent-Free Living',
+                h1: 'Lease Options Retirement',
+                subtitle: 'Calculate creative housing solutions for accelerated retirement portfolio growth.',
+                description: 'Lease options retirement strategy...'
+            },
+
+            '/real-estate-notes': {
+                path: '/real-estate-notes',
+                title: 'Real Estate Notes Retirement Calculator - Promissory Note Investing',
+                h1: 'Real Estate Notes Retirement',
+                subtitle: 'Calculate passive income from buying performing real estate note portfolios.',
+                description: 'Real estate notes retirement investing...'
+            },
+
+            '/mei-profits': {
+                path: '/mei-profits',
+                title: 'MEI Profits Retirement Calculator - Materially Enhanced Income',
+                h1: 'MEI Profits for Retirement',
+                subtitle: 'Calculate syndication profits and preferred returns for retirement income.',
+                description: 'MEI profits retirement calculator...'
+            },
+
+            '/reits-vs-rentals': {
+                path: '/reits-vs-rentals',
+                title: 'REITs vs Direct Rentals Retirement Calculator - Investment Choice',
+                h1: 'REITs vs Direct Rentals for Retirement',
+                subtitle: 'Compare real estate investment trusts vs direct ownership for retirement planning.',
+                description: 'REITs vs rentals retirement comparison...'
+            },
+
+            // Market Timing and Exit Strategies
+            '/real-estate-market-timing': {
+                path: '/real-estate-market-timing',
+                title: 'Real Estate Market Timing Retirement Calculator - Buy Low, Sell High',
+                h1: 'Real Estate Market Timing',
+                subtitle: 'Calculate optimal market entry and exit timing for retirement wealth maximization.',
+                description: 'Real estate market timing retirement...'
+            },
+
+            '/retirement-real-estate-mobile-home-parks': {
+                path: '/retirement-real-estate-mobile-home-parks',
+                title: 'Mobile Home Park Retirement Calculator - Manufactured Housing Communities',
+                h1: 'Mobile Home Parks Retirement',
+                subtitle: 'Calculate recession-resistant retirement income from mobile home park investments.',
+                description: 'Mobile home parks retirement calculator...'
+            },
+
+            '/self-storage-facilities': {
+                path: '/self-storage-facilities',
+                title: 'Self Storage Facilities Retirement Calculator - Passive Facility Management',
+                h1: 'Self Storage Retirement',
+                subtitle: 'Calculate hands-off retirement income from climate-controlled storage facilities.',
+                description: 'Self storage retirement facilities...'
+            },
+
+
+            '/billboards-real-estate': {
+                path: '/billboards-real-estate',
+                title: 'Billboard Real Estate Retirement Calculator - Outdoor Advertising ROI',
+                h1: 'Billboard Real Estate Retirement',
+                subtitle: 'Calculate passive advertising income from billboard sign lease portfolios.',
+                description: 'Billboard real estate retirement...'
             }
         };
     }
