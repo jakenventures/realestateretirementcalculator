@@ -66,7 +66,7 @@ class ChartManager {
                 },
                 {
                     label: 'Target Income',
-                    data: rows.map(r => rows[0].targetIncome || 8000), // Use first row's target
+                    data: rows.map(r => kpis.targetIncome || 8000), // Get from KPIs or default
                     color: '#333',
                     type: 'line',
                     dashed: true
@@ -339,9 +339,32 @@ class ChartManager {
 // Initialize chart manager
 const chartManager = new ChartManager();
 
+// Default example data for initial chart display
+const exampleData = {
+    rows: [
+        { year: 0, age: 35, doors: 1, monthlyCashFlow: 1200, equity: 75000, loanBalance: 225000, portfolioValue: 300000, dscr: 1.25 },
+        { year: 2, age: 37, doors: 2, monthlyCashFlow: 2100, equity: 145000, loanBalance: 400000, portfolioValue: 565000, dscr: 1.35 },
+        { year: 5, age: 40, doors: 3, monthlyCashFlow: 3200, equity: 250000, loanBalance: 550000, portfolioValue: 800000, dscr: 1.28 },
+        { year: 8, age: 43, doors: 4, monthlyCashFlow: 4300, equity: 380000, loanBalance: 620000, portfolioValue: 1050000, dscr: 1.22 },
+        { year: 12, age: 47, doors: 6, monthlyCashFlow: 5800, equity: 550000, loanBalance: 850000, portfolioValue: 1400000, dscr: 1.18 },
+        { year: 15, age: 50, doors: 8, monthlyCashFlow: 7300, equity: 750000, loanBalance: 950000, portfolioValue: 1750000, dscr: 1.25 },
+        { year: 18, age: 53, doors: 10, monthlyCashFlow: 8900, equity: 980000, loanBalance: 1050000, portfolioValue: 2100000, dscr: 1.32 }
+    ],
+    kpis: {
+        targetIncome: 8000,
+        irr: 12.5,
+        npv: 450000
+    }
+};
+
 // Export functions
 export function initCharts() {
     chartManager.initCharts();
+
+    // Show example charts with default data
+    setTimeout(() => {
+        updateCharts(exampleData.rows, exampleData.kpis);
+    }, 100); // Small delay to ensure DOM is ready
 }
 
 export function updateCharts(rows, kpis) {
