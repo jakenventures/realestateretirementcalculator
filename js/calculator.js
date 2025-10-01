@@ -218,7 +218,7 @@ class RetirementCalculator {
             }
         }
 
-        // Calculate KPIs
+        // Calculate advanced KPIs and analytics
         const finalRow = rows[rows.length - 1];
         const kpis = {
             timeToTarget: rows.find(row => row.reachedTargetIncome) ?
@@ -228,7 +228,19 @@ class RetirementCalculator {
             portfolioValue: finalRow.portfolioValue,
             totalCashInvested: (params.monthlyContribution * 12 * finalRow.year) +
                               (params.currentSavings - finalRow.currentSavings),
-            firstRefiAge: Math.min(...properties.map(p => p.lastRefiAge).filter(age => age > params.currentAge))
+            firstRefiAge: Math.min(...properties.map(p => p.lastRefiAge).filter(age => age > params.currentAge)),
+
+            // Advanced Analytics
+            averageAnnualReturn: this.calculateAverageAnnualReturn(rows, params),
+            irr: this.calculateIRR(rows, params),
+            npv: this.calculateNPV(rows, params),
+            paybackPeriod: this.calculatePaybackPeriod(rows, params),
+            cashOnCashYield: this.calculateCashOnCashYield(rows),
+            totalPassiveIncome: finalRow.monthlyCashFlow * 12,
+            leverageRatio: this.calculateLeverageRatio(rows),
+            riskAdjustedReturn: this.calculateRiskAdjustedReturn(rows, params),
+            scalabilityIndex: this.calculateScalabilityIndex(rows),
+            investmentEfficiency: this.calculateInvestmentEfficiency(rows, params)
         };
 
         return { rows, kpis };
@@ -420,6 +432,200 @@ export function resetCalculator() {
 
 export function calculateResults(params) {
     return calculator.simulatePlan(params);
+}
+
+// Advanced Analytics Calculation Methods
+    // Calculate Average Annual Return
+    calculateAverageAnnualReturn(rows, params) {
+        if (rows.length < 2) return 0;
+        const finalValue = rows[rows.length - 1].portfolioValue;
+        const totalInvested = rows[rows.length - 1].cumulativeContribution;
+        const years = rows.length - 1;
+
+        if (years <= 0 || totalInvested <= 0) return 0;
+
+        // CAGR = (Ending Value / Beginning Value)^(1/Time) - 1
+        const cagr = Math.pow(finalValue / totalInvested, 1 / years) - 1;
+        return Math.round(cagr * 10000) / 100; // Return as percentage
+    }
+
+    // Calculate Internal Rate of Return (IRR)
+    calculateIRR(rows, params) {
+    if (rows.length < 2) return 0;
+
+    // Simplified IRR approximation
+    const cashFlows = [-params.currentSavings]; // Initial investment (negative)
+
+    rows.forEach(row => {
+        // Monthly contributions
+        if (row.year > 0) {
+            // Add monthly investments for this year
+            for (let month = 1; month <= 12; month++) {
+                cashFlows.push(-params.monthlyContribution);
+            }
+        }
+
+        // Add positive cash flows (passive income)
+        for (let month = 1; month <= 12; month++) {
+            cashFlows.push(row.monthlyCashFlow);
+        }
+    });
+
+    // Approximate IRR using Newton-Raphson method (simplified)
+    const guess = 0.10; // 10% starting guess
+    return this.approximateIRR(cashFlows, guess);
+}
+
+// Calculate Net Present Value (NPV)
+    calculateNPV(rows, params) {
+    if (rows.length < 2) return 0;
+
+    const discountRate = 0.08; // 8% discount rate
+    let npv = -params.currentSavings;
+
+    rows.forEach((row, index) => {
+        // Discount each year's cash flows
+        const yearCf = (row.monthlyCashFlow * 12);
+        const annualContribution = -params.monthlyContribution * 12;
+
+        // Apply discounting (simplified - assuming uniform timing within year)
+        const discountFactor = 1 / Math.pow(1 + discountRate, row.year || 1);
+        npv += (yearCf + annualContribution) * discountFactor;
+    });
+
+    return Math.round(npv);
+}
+
+// Calculate Payback Period
+calculatePaybackPeriod(rows, params) {
+    let cumulativeInvested = params.currentSavings;
+    let cumulativeReturned = 0;
+    let year = 0;
+
+    for (const row of rows) {
+        const annualInvestment = params.monthlyContribution * 12;
+        const annualCashFlow = row.monthlyCashFlow * 12;
+
+        cumulativeInvested += annualInvestment;
+        cumulativeReturned += annualCashFlow;
+
+        if (cumulativeReturned >= cumulativeInvested) {
+            year = row.year;
+            break;
+        }
+        year = row.year + 1;
+    }
+
+    return year;
+}
+
+// Calculate Cash-on-Cash Yield
+calculateCashOnCashYield(rows) {
+    if (rows.length === 0) return 0;
+
+    const firstYear = rows[1]; // Year 1 data
+    if (!firstYear) return 0;
+
+    // Annual cash flow / annual invested capital
+    const annualCashFlow = firstYear.monthlyCashFlow * 12;
+    const annualizedInvestment = firstYear.cumulativeContribution;
+    const cocYield = annualizedInvestment > 0 ? annualCashFlow / annualizedInvestment : 0;
+
+    return Math.round(cocYield * 10000) / 100;
+}
+
+// Calculate Leverage Ratio
+calculateLeverageRatio(rows) {
+    if (rows.length === 0) return 0;
+
+    const finalRow = rows[rows.length - 1];
+    const totalDebt = finalRow.loanBalance;
+    const totalEquity = finalRow.equity;
+
+    return totalDebt > 0 ? Math.round((totalDebt / totalEquity) * 100) / 100 : 0;
+}
+
+// Calculate Risk-Adjusted Return (Sharpe Ratio approximation)
+calculateRiskAdjustedReturn(rows, params) {
+    if (rows.length < 3) return 0;
+
+    // Calculate annualized returns
+    const returns = [];
+    for (let i = 1; i < rows.length; i++) {
+        const currentValue = rows[i].portfolioValue;
+        const previousValue = rows[i-1].portfolioValue;
+        const annualReturn = (currentValue - previousValue) / previousValue;
+        returns.push(annualReturn);
+    }
+
+    const avgReturn = returns.reduce((sum, r) => sum + r, 0) / returns.length;
+    const volatility = Math.sqrt(returns.reduce((sum, r) => sum + Math.pow(r - avgReturn, 2), 0) / returns.length);
+
+    // Simplified risk-adjusted return (higher is better)
+    const riskFreeRate = 0.03; // 3% risk-free rate
+    const excessReturn = avgReturn - riskFreeRate;
+
+    return volatility > 0 ? Math.round((excessReturn / volatility) * 100) / 100 : 0;
+}
+
+// Calculate Scalability Index
+calculateScalabilityIndex(rows) {
+    if (rows.length < 2) return 0;
+
+    const finalRow = rows[rows.length - 1];
+    const initialRow = rows[1] || rows[0]; // Use first year with data
+
+    // Properties scaled / time to scale
+    const propertiesScaled = finalRow.doors - initialRow.doors;
+    const timeToScale = finalRow.year;
+
+    return timeToScale > 0 ? Math.round((propertiesScaled / timeToScale) * 100) / 100 : 0;
+}
+
+// Calculate Investment Efficiency
+calculateInvestmentEfficiency(rows, params) {
+    if (rows.length === 0) return 0;
+
+    const finalRow = rows[rows.length - 1];
+    const totalCashInvested = finalRow.cumulativeContribution;
+    const annualIncome = finalRow.monthlyCashFlow * 12;
+
+    // Income generated per $1,000 invested
+    const efficiency = totalCashInvested > 0 ? annualIncome / totalCashInvested : 0;
+
+    return Math.round(efficiency * 1000) / 10; // Dollars per $1,000 invested
+}
+
+// Approximate IRR using Newton-Raphson method (simplified)
+approximateIRR(cashFlows, guess = 0.10) {
+    const maxIterations = 50;
+    const tolerance = 0.00001;
+    let rate = guess;
+
+    for (let i = 0; i < maxIterations; i++) {
+        let npv = 0;
+        let dnpv = 0;
+
+        cashFlows.forEach((cf, period) => {
+            const discountFactor = Math.pow(1 + rate, period);
+            npv += cf / discountFactor;
+            dnpv += -period * cf / Math.pow(1 + rate, period + 1);
+        });
+
+        // Newton-Raphson iteration
+        const delta = npv / dnpv;
+
+        if (Math.abs(delta) < tolerance) {
+            return Math.round(rate * 10000) / 100; // Return as percentage
+        }
+
+        rate = rate - delta;
+
+        // Prevent negative rates or rates > 100%
+        if (rate < -1 || rate > 10) rate = 0.10;
+    }
+
+    return Math.round(rate * 10000) / 100;
 }
 
 // Make calculator available globally for inline event handlers
