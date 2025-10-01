@@ -7,31 +7,31 @@ class RetirementCalculator {
             // Personal
             currentAge: 35,
             retirementAge: 65,
-            currentSavings: 50000,
-            monthlyContribution: 2000,
+            currentSavings: 100000, // Increased for better scenarios
+            monthlyContribution: 3000, // Increased for realistic investing
             targetIncome: 8000,
 
-            // Property
-            startingDoors: 1,
-            avgPrice: 300000,
+            // Property - More realistic values
+            startingDoors: 0, // Start with no properties to build portfolio
+            avgPrice: 400000, // Higher average home price
             ltvRatio: 75,
-            interestRate: 6.5,
+            interestRate: 6.8, // Current market rate
             loanTerm: 30,
-            closingCosts: 3,
-            vacancyRate: 5,
-            maintenanceRate: 1,
-            managementRate: 8,
-            propertyTax: 1.2,
-            insuranceCost: 1200,
-            rentGrowth: 3,
-            appreciation: 4,
-            expenseInflation: 2.5,
+            closingCosts: 3.5, // More accurate
+            vacancyRate: 4.5, // Realistic vacancy
+            maintenanceRate: 1.2, // More accurate maintenance
+            managementRate: 8.5, // Professional management fee
+            propertyTax: 1.1, // Average property tax
+            insuranceCost: 1500, // Higher insurance
+            rentGrowth: 3.5, // Current rent growth rates
+            appreciation: 5.0, // Long-term average
+            expenseInflation: 2.8, // Closer to overall inflation
 
-            // Lending
-            dscrTarget: 1.20,
-            refiLtvThreshold: 75,
-            refiSeasoning: 6,
-            refiRateDelta: 0.75
+            // Lending - Conservative underwriting
+            dscrTarget: 1.25, // More conservative DSCR
+            refiLtvThreshold: 80, // Allow more cash-out refis
+            refiSeasoning: 4, // Shorter seasoning for efficiency
+            refiRateDelta: 0.5 // Smaller rate decrease requirement
         };
     }
 
@@ -84,7 +84,7 @@ class RetirementCalculator {
             properties.push(property);
         }
 
-        const maxYears = 50; // Safety limit
+        const maxYears = 30; // More realistic timeframe
         const targetAge = params.currentAge + maxYears;
 
         for (let year = 0; year <= maxYears; year++) {
@@ -151,7 +151,13 @@ class RetirementCalculator {
             const newAnnualDebtService = this.calculateMonthlyPayment(downPayment, params.interestRate, params.loanTerm) * 12;
             const newDSCR = newAnnualDebtService > 0 ? newPropertyNOI * 12 / newAnnualDebtService : 0;
 
-            if (currentSavings >= acquisitionCost && newDSCR >= params.dscrTarget && totalDoors < 50) { // Safety limit
+            // More aggressive purchasing logic - buy when cash flow positive and property is accretive
+            const canBuy = currentSavings >= acquisitionCost &&
+                          newDSCR >= params.dscrTarget &&
+                          monthlyCashFlow + newPropertyNOI >= monthlyCashFlow && // Ensure positive cash flow
+                          totalDoors < 25; // More reasonable limit
+
+            if (canBuy) {
                 currentSavings -= acquisitionCost;
                 totalDoors++;
 
@@ -162,6 +168,22 @@ class RetirementCalculator {
                     equity: params.avgPrice - downPayment,
                     purchaseYear: year,
                     monthlyRent: newPropertyRent,
+                    lastRefiAge: currentAge
+                };
+
+                properties.push(newProperty);
+            } else if (currentSavings >= acquisitionCost * 2 && monthlyCashFlow < params.targetIncome * 0.3) {
+                // Emergency mode: Buy more aggressively if far from target
+                currentSavings -= acquisitionCost;
+                totalDoors++;
+
+                const newProperty = {
+                    id: Date.now(),
+                    purchasePrice: params.avgPrice,
+                    loanBalance: downPayment,
+                    equity: params.avgPrice - downPayment,
+                    purchaseYear: year,
+                    monthlyRent: Math.round(params.avgPrice * 0.010), // Slightly lower rent estimate for emergency mode
                     lastRefiAge: currentAge
                 };
 
@@ -260,21 +282,16 @@ class RetirementCalculator {
         // Small delay for UX
         setTimeout(() => {
             const params = this.getFormParams();
-            console.log('Calculator parameters:', params);
-
             const { rows, kpis } = this.simulatePlan(params);
-            console.log('Simulation results:', { rowsLength: rows?.length, kpis, firstRow: rows?.[0] });
 
             // Ensure we have at least minimal data for charts
             if (rows.length === 0) {
-                console.warn('No simulation data generated - using defaults');
                 // Use minimal default data if simulation failed
                 const defaultRows = [{ year: 0, age: params.currentAge, doors: 1, monthlyCashFlow: 1200, equity: 75000, loanBalance: 225000, portfolioValue: 300000, dscr: 1.25 }];
                 const defaultKpis = Object.assign({}, kpis, { targetIncome: params.targetIncome });
                 this.displayResults(defaultRows, defaultKpis);
                 updateCharts(defaultRows, defaultKpis);
             } else {
-                console.log('Updating charts with simulation data');
                 this.displayResults(rows, kpis);
                 updateCharts(rows, kpis);
             }

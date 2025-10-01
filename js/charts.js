@@ -128,21 +128,17 @@ class ChartManager {
     }
 
     renderChart(canvasId, data, chartType) {
-        console.log(`Rendering chart ${canvasId} with type ${chartType}:`, data);
         const canvas = document.getElementById(canvasId);
         if (!canvas) {
-            console.error(`Canvas element ${canvasId} not found`);
             return;
         }
 
         const ctx = canvas.getContext('2d');
         if (!ctx) {
-            console.error(`Could not get 2D context for canvas ${canvasId}`);
             return;
         }
 
         const rect = canvas.getBoundingClientRect();
-        console.log(`Canvas ${canvasId} dimensions:`, { width: rect.width, height: rect.height });
 
         // Store chart data for resizing
         this.charts[canvasId] = { data, type: chartType };
@@ -369,20 +365,16 @@ const exampleData = {
 
 // Export functions
 export function initCharts() {
-    console.log('Initializing charts...');
     chartManager.initCharts();
 
     // Show example charts with default data
     setTimeout(() => {
-        console.log('Showing initial example charts...');
         updateCharts(exampleData.rows, exampleData.kpis);
     }, 100); // Small delay to ensure DOM is ready
 }
 
 export function updateCharts(rows, kpis) {
-    console.log('updateCharts called with:', { rowsLength: rows?.length, kpis });
     if (!rows || rows.length === 0) {
-        console.warn('No rows data provided to updateCharts');
         return;
     }
     chartManager.updateCharts(rows, kpis);
