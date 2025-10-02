@@ -146,22 +146,25 @@ class ChartManager {
         // Store chart data for resizing
         this.charts[canvasId] = { data, type: chartType };
 
-        // Clear canvas and ensure proper scaling
+        // Force dimensions even if canvas is not visible
         const dpr = window.devicePixelRatio || 1;
-        canvas.width = rect.width * dpr;
-        canvas.height = rect.height * dpr;
+        const forceWidth = rect.width || 400;
+        const forceHeight = rect.height || 200;
+
+        canvas.width = forceWidth * dpr;
+        canvas.height = forceHeight * dpr;
         ctx.scale(dpr, dpr);
 
-        console.log(`Canvas dimensions after scaling:`, { width: canvas.width, height: canvas.height, scale: dpr });
+        console.log(`Canvas dimensions after forcing:`, { width: canvas.width, height: canvas.height, scale: dpr });
 
         // Clear canvas
-        ctx.clearRect(0, 0, rect.width, rect.height);
+        ctx.clearRect(0, 0, forceWidth, forceHeight);
 
         if (!data.datasets || data.datasets.length === 0) return;
 
         const padding = 60;
-        const innerWidth = rect.width - padding * 2;
-        const innerHeight = rect.height - padding * 2;
+        const innerWidth = forceWidth - padding * 2;
+        const innerHeight = forceHeight - padding * 2;
 
         // Calculate scales
         const allValues = data.datasets.flatMap(ds => ds.data);
@@ -175,26 +178,26 @@ class ChartManager {
 
         // X-axis
         ctx.beginPath();
-        ctx.moveTo(padding, rect.height - padding);
-        ctx.lineTo(rect.width - padding, rect.height - padding);
+        ctx.moveTo(padding, forceHeight - padding);
+        ctx.lineTo(forceWidth - padding, forceHeight - padding);
         ctx.stroke();
 
         // Y-axis
         ctx.beginPath();
         ctx.moveTo(padding, padding);
-        ctx.lineTo(padding, rect.height - padding);
+        ctx.lineTo(padding, forceHeight - padding);
         ctx.stroke();
 
         // Grid lines and labels
-        this.drawGridAndLabels(ctx, data, rect, padding, minValue, maxValue, valueRange, innerWidth, innerHeight);
+        this.drawGridAndLabels(ctx, data, { width: forceWidth, height: forceHeight }, padding, minValue, maxValue, valueRange, innerWidth, innerHeight);
 
         // Draw datasets
         data.datasets.forEach((dataset, datasetIndex) => {
-            this.drawDataset(ctx, dataset, data.labels, rect, padding, minValue, valueRange, innerWidth, innerHeight, chartType, datasetIndex);
+            this.drawDataset(ctx, dataset, data.labels, { width: forceWidth, height: forceHeight }, padding, minValue, valueRange, innerWidth, innerHeight, chartType, datasetIndex);
         });
 
         // Draw legend
-        this.drawLegend(ctx, data.datasets, rect, padding);
+        this.drawLegend(ctx, data.datasets, { width: forceWidth, height: forceHeight }, padding);
     }
 
     drawGridAndLabels(ctx, data, rect, padding, minValue, maxValue, valueRange, innerWidth, innerHeight) {
