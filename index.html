@@ -1,206 +1,230 @@
-<!-- Calculator Section -->
-        <section class="calculator-section" style="padding: 3rem 0; background: var(--surface);">
-            <div class="container">
-                <div class="calculator-card" style="background: var(--white); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 2rem;">
-                    <h2 style="margin-bottom: 1.5rem; text-align: center;">Your Retirement Calculator</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--
+    README: Real Estate Retirement Calculator - Deployment Instructions
 
-                    <!-- Personal Information -->
-                    <h3>Personal Details</h3>
-                    <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                        <div class="form-group">
-                            <label for="current-age">Current Age <span class="required">*</span></label>
-                            <input type="number" id="current-age" value="35" min="18" max="80" required>
-                            <small>Years</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="retirement-age">Target Retirement Age <span class="required">*</span></label>
-                            <input type="number" id="retirement-age" value="65" min="50" max="90" required>
-                            <small>Years</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="current-savings">Current Real Estate Savings <span class="required">*</span></label>
-                            <input type="number" id="current-savings" value="100000" step="1000" required min="0">
-                            <small>$ (cash on hand for down payments)</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="monthly-contribution">Monthly Contribution <span class="required">*</span></label>
-                            <input type="number" id="monthly-contribution" value="3000" step="100" required min="0">
-                            <small>$ (additional savings per month)</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="target-income">Target Monthly Income <span class="required">*</span></label>
-                            <input type="number" id="target-income" value="8000" step="500" required min="0">
-                            <small>$ (desired cash flow)</small>
-                        </div>
-                    </div>
+    1. Git Setup & Push:
+    git init
+    git branch -M main
+    git remote add origin https://github.com/jakenventures/realestateretirementcalculator.git
+    git add .
+    git commit -m "Initial commit: Real Estate Retirement Calculator"
+    git push -u origin main
 
-                    <!-- Portfolio Section -->
-                    <h3>Property Portfolio</h3>
-                    <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                        <div class="form-group">
-                            <label for="starting-doors">Starting Properties</label>
-                            <input type="number" id="starting-doors" value="0" min="0" max="10">
-                        </div>
-                        <div class="form-group">
-                            <label for="avg-price">Average Property Price <span class="required">*</span></label>
-                            <input type="number" id="avg-price" value="400000" step="10000" required min="0">
-                            <small>$ per property</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="interest-rate">Interest Rate <span class="required">*</span></label>
-                            <input type="number" id="interest-rate" value="6.8" step="0.1" min="3" max="12" required>
-                            <small>% APR</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="loan-term">Loan Term <span class="required">*</span></label>
-                            <select id="loan-term" required>
-                                <option value="30">30 Years</option>
-                                <option value="25">25 Years</option>
-                                <option value="20">20 Years</option>
-                                <option value="15">15 Years</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="ltv-ratio">Loan-to-Value Ratio</label>
-                            <input type="range" id="ltv-ratio" value="75" min="60" max="80" step="5" oninput="updateLTVDisplay()">
-                            <div style="display: flex; justify-content: space-between;">
-                                <small>60%</small>
-                                <span id="ltv-display" style="font-weight: 600;">75%</span>
-                                <small>80%</small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="closing-costs">Closing Costs</label>
-                            <input type="number" id="closing-costs" value="3.5" step="0.5" min="1" max="8">
-                            <small>%</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="vacancy-rate">Vacancy Rate</label>
-                            <input type="number" id="vacancy-rate" value="4.5" step="0.5" min="0" max="15">
-                            <small>%</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="maintenance-rate">Maintenance Rate</label>
-                            <input type="number" id="maintenance-rate" value="1.2" step="0.25" min="0.5" max="3">
-                            <small>% of rent</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="management-rate">Management Rate</label>
-                            <input type="number" id="management-rate" value="8.5" step="0.5" min="0" max="15">
-                            <small>% of gross rent</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="property-tax">Property Taxes</label>
-                            <input type="number" id="property-tax" value="1.1" step="0.1" min="0.5" max="2">
-                            <small>% of value</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="insurance-cost">Insurance Cost</label>
-                            <input type="number" id="insurance-cost" value="1500" step="100">
-                            <small>$ per year</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="rent-growth">Rent Growth</label>
-                            <input type="number" id="rent-growth" value="3.5" step="0.5" min="0" max="8">
-                            <small>% per year</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="appreciation">Appreciation</label>
-                            <input type="number" id="appreciation" value="5.0" step="0.5" min="0" max="10">
-                            <small>% per year</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="expense-inflation">Expense Inflation</label>
-                            <input type="number" id="expense-inflation" value="2.8" step="0.25" min="0" max="5">
-                            <small>% per year</small>
-                        </div>
-                    </div>
+    2. Netlify Deployment:
+    - Go to Netlify, click "Add new site" → "Import from Git"
+    - Choose GitHub, select jakenventures/realestateretirementcalculator
+    - Build command: (leave blank)
+    - Publish directory: .
+    - Add environment variable: BASE_URL = your Netlify site URL (e.g., https://realestateretirementcalculator.netlify.app)
 
-                    <!-- Lending Criteria -->
-                    <h3>Lending Strategy</h3>
-                    <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                        <div class="form-group">
-                            <label for="dscr-target">Target DSCR <span class="required">*</span></label>
-                            <input type="number" id="dscr-target" value="1.20" step="0.05" min="1.05" max="1.50" required>
-                            <small>Min. 1.25 for new lending</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="refi-ltv-threshold">Refi LTV Threshold</label>
-                            <input type="number" id="refi-ltv-threshold" value="75" step="5" min="60" max="90">
-                            <small>% when to refinance</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="refi-seasoning">Minimum Seasoning</label>
-                            <input type="number" id="refi-seasoning" value="6" min="0" max="24">
-                            <small>Months before refinance</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="refi-rate-delta">Rate Improvement</label>
-                            <input type="number" id="refi-rate-delta" value="0.75" step="0.25" min="0" max="2">
-                            <small>% rate drop for refinance</small>
-                        </div>
-                    </div>
+    3. Project Structure:
+    - 50+ SEO-optimized articles in /articles/
+    - Calculator in /retirement-calculator
+    - Static files: sitemap.xml, robots.txt, netlify.toml, _redirects
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your real estate retirement timeline with our DSCR mortgage calculator. Access 50+ comprehensive real estate investment articles covering strategies, markets, and financing.">
+    <meta name="keywords" content="real estate retirement calculator, DSCR calculator, rental property retirement, real estate investment articles, property financing">
 
-                    <div style="text-align: center; margin: 2rem 0;">
-                        <button id="calculate-btn" class="btn" type="button" onclick="handleCalculate()" disabled>Calculate Retirement Plan</button>
-                        <button id="reset-btn" class="btn btn-secondary" type="button" onclick="handleReset()" style="margin-left: 1rem;">Reset to Defaults</button>
-                    </div>
+    <title>Real Estate Retirement Calculator | 50+ Investment Articles</title>
+    <link rel="canonical" href="https://realestateretirementcalculator.netlify.app/">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- Critical CSS -->
+    <style>
+        :root {
+            --primary: #FFD300;
+            --ink: #111111;
+            --white: #FFFFFF;
+            --surface: #F5F5F5;
+            --border: #EDEDED;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--ink);
+            background: var(--surface);
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.25rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: var(--ink);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .nav-links a:hover { background: var(--surface); }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            background: linear-gradient(135deg, var(--white) 0%, var(--surface) 100%);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.2;
+        }
+
+        .hero .subtitle {
+            font-size: 1.25rem;
+            color: #555;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--ink);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,211,0,0.3); }
+
+        .btn-secondary {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--ink);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--ink);
+        }
+
+        .features {
+            padding: 4rem 0;
+            background: var(--white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .feature-card p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            background: var(--primary);
+            color: var(--ink);
+            text-align: center;
+            padding: 4rem 1rem;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .cta-section .subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        footer {
+            background: var(--ink);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.25rem; }
+            .hero .subtitle { font-size: 1.1rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .cta-section h2 { font-size: 2rem; }
+        }
+
+        /* Loading states */
+        .loading { opacity: 0.6; pointer-events: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container nav-content">
+                <a href="/" class="logo">Real Estate Retirement Calculator</a>
+                <div class="nav-links">
+                    <a href="/retirement-calculator">Calculator</a>
+                    <a href="/articles">Articles</a>
                 </div>
-
-                <!-- Results Section -->
-                <div id="results-container" style="display: none;">
-                    <h2 style="text-align: center; margin-bottom: 2rem;">Your Retirement Analysis</h2>
-
-                    <!-- Key Metrics -->
-                    <div class="features-grid" style="margin-bottom: 2rem;">
-                        <div class="result-card" style="text-align: center;">
-                            <h3>Years to Target</h3>
-                            <div id="time-to-target" class="metric-value">--</div>
-                        </div>
-                        <div class="result-card" style="text-align: center;">
-                            <h3>Properties Needed</h3>
-                            <div id="properties-needed" class="metric-value">--</div>
-                        </div>
-                        <div class="result-card" style="text-align: center;">
-                            <h3>Peak Cash Flow</h3>
-                            <div id="peak-cashflow" class="metric-value">$--</div>
-                        </div>
-                        <div class="result-card" style="text-align: center;">
-                            <h3>Portfolio Value</h3>
-                            <div id="portfolio-value" class="metric-value">$--</div>
-                        </div>
-                        <div class="result-card" style="text-align: center;">
-                            <h3>Cash Invested</h3>
-                            <div id="cash-invested" class="metric-value">$--</div>
-                        </div>
-                        <div class="result-card" style="text-align: center;">
-                            <h3>First Refinance</h3>
-                            <div id="first-refi-age" class="metric-value">--</div>
-                        </div>
-                    </div>
-
-                    <!-- Charts -->
-                    <div class="chart-container">
-                        <h3>Cash Flow vs Target Income</h3>
-                        <canvas id="cashflow-chart" width="600" height="300" style="max-width: 100%; height: auto;"></canvas>
-                    </div>
-
-                    <div class="chart-container">
-                        <h3>Portfolio Growth: Equity vs Loan Balance</h3>
-                        <canvas id="portfolio-chart" width="600" height="300" style="max-width: 100%; height: auto;"></canvas>
-                    </div>
-
-                    <div class="chart-container">
-                        <h3>Properties Owned Over Time</h3>
-                        <canvas id="doors-chart" width="600" height="300" style="max-width: 100%; height: auto;"></canvas>
-                    </div>
-
-                    <div class="chart-container">
-                        <h3>DSCR Trend</h3>
-                        <canvas id="dscr-chart" width="600" height="300" style="max-width: 100%; height: auto;"></canvas>
-                    </div>
-
-                    <!-- Action Buttons -->
             </div>
         </nav>
     </header>
@@ -210,15 +234,15 @@
         <section class="hero">
             <div class="container">
                 <h1>Master Real Estate Retirement Planning</h1>
-                <p class="subtitle">Complete calculator with 50+ SEO-optimized articles covering every aspect of real estate investment strategies, financing, and market analysis.</p>
+                <p class="subtitle">Use our advanced calculator to model rental property investments, DSCR loans, and cash flow growth strategies. Access 50+ comprehensive articles covering every aspect of real estate investing.</p>
                 <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0;">
-                    <a href="#calculator" class="btn">Try Calculator</a>
-                    <a href="/articles" class="btn btn-secondary">Browse Articles</a>
+                    <a href="/retirement-calculator" class="btn">Use Retirement Calculator</a>
+                    <a href="/articles" class="btn btn-secondary">Browse Investment Articles</a>
                 </div>
-                <div style="max-width: 600px; margin: 0 auto; color: #666; font-size: 1.1rem; line-height: 1.6;">
-                    <strong>✓ Professional Retirement Calculator</strong> - DSCR modeling, refinance strategies, portfolio scaling<br>
-                    <strong>✓ 50+ Comprehensive Articles</strong> - BRRRR, House Hacking, Syndication, Market Analysis<br>
-                    <strong>✓ Educational Content Only</strong> - No licensing claims, pure investor education
+                <div style="max-width: 600px; margin: 0 auto; color: #666; font-size: 1.1rem; line-height: 1.6; margin-top: 2rem;">
+                    <strong>✓ Professional Calculator</strong> - Advance DSCR, amortization, and portfolio modeling<br>
+                    <strong>✓ 50+ SEO Articles</strong> - BRRRR, Syndication, Markets, Financing Strategies<br>
+                    <strong>✓ Educational Content</strong> - No licensing claims, pure investor education
                 </div>
             </div>
         </section>
@@ -226,226 +250,32 @@
         <!-- Features Section -->
         <section class="features">
             <div class="container">
-                <h2 style="text-align: center; margin-bottom: 2rem;">Built for Real Estate Investors</h2>
+                <h2 style="text-align: center; margin-bottom: 1rem;">Comprehensive Real Estate Tools</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">Built for serious real estate investors, our platform combines advanced financial modeling with educational content to help you make informed decisions.</p>
                 <div class="features-grid">
                     <div class="feature-card">
-                        <h3>🔧 Advanced Calculator</h3>
-                        <p>DSCR ratios, refinance modeling, property scaling strategies, what-if scenarios, comprehensive financial projections.</p>
+                        <h3>🧮 Advanced Retirement Calculator</h3>
+                        <p>DSCR loan modeling, amortization schedules, refinance cash-out strategies, and portfolio scaling projections. See exactly how many years until Passive Income Freedom.</p>
                     </div>
                     <div class="feature-card">
-                        <h3>📚 50+ SEO Articles</h3>
-                        <p>Coverage of strategies (BRRRR, Syndication), locations (Chicago, Austin, Tampa), property types, financing options.</p>
+                        <h3>📚 50+ Investment Articles</h3>
+                        <p>Comprehensive coverage of real estate strategies (BRRRR, House Hacking, Syndication), specific markets (Chicago, Austin, Tampa), property types, and creative financing options.</p>
                     </div>
                     <div class="feature-card">
-                        <h3>🎯 Lead Generation</h3>
-                        <p>Educational funnel to JakEn Finance Group with strategic CTAs and UTM tracking for qualified investor leads.</p>
+                        <h3>📊 Working Data Visualizations</h3>
+                        <p>Interactive charts showing cash flow growth, equity buildup, property acquisition timelines, and DSCR trends. Visualize your path to financial independence.</p>
                     </div>
                     <div class="feature-card">
-                        <h3>📊 Working Charts</h3>
-                        <p>Interactive visualizations of cash flow, equity buildup, property acquisition, DSCR trends with 0-10 property scaling.</p>
+                        <h3>🎯 Lead Generation Funnel</h3>
+                        <p>Educational content that naturally leads qualified investors to JakEn Finance Group. Strategic CTAs throughout articles and calculator for conversion optimization.</p>
                     </div>
                     <div class="feature-card">
-                        <h3>🎨 Modern UI</h3>
-                        <p>Mobile-first design, WCAG accessible, responsive across devices, performance optimized for SEO ranking.</p>
+                        <h3>🎨 Professional Design</h3>
+                        <p>Clean, modern interface with mobile-first responsiveness, WCAG accessibility compliance, and performance optimization for both users and search engines.</p>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Calculator Section -->
-        <section class="calculator-section" style="background: var(--surface);">
-            <div class="container">
-                <div class="calculator-card">
-                    <h2 id="calculator" style="margin-bottom: 1.5rem; text-align: center;">Your Retirement Calculator</h2>
-
-                    <!-- Personal Information -->
-                    <h3>Personal Details</h3>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="current-age">Current Age</label>
-                            <input type="number" id="current-age" value="35" min="18" max="80">
-                            <small>Years</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="retirement-age">Target Retirement Age</label>
-                            <input type="number" id="retirement-age" value="65" min="50" max="90">
-                            <small>Years</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="current-savings">Current Real Estate Savings</label>
-                            <input type="number" id="current-savings" value="100000" step="1000">
-                            <small>$ (cash on hand for down payments)</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="monthly-contribution">Monthly Investment</label>
-                            <input type="number" id="monthly-contribution" value="3000" step="100">
-                            <small>$ (additional savings per month)</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="target-income">Target Monthly Retirement Income</label>
-                            <input type="number" id="target-income" value="8000" step="500">
-                            <small>$ (desired cash flow per month)</small>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Information -->
-                    <h3>Property Portfolio</h3>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="starting-doors">Starting Properties</label>
-                            <input type="number" id="starting-doors" value="0" min="0" max="10">
-                            <small>Number of doors you already own</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="avg-price">Average Property Price</label>
-                            <input type="number" id="avg-price" value="400000" step="10000">
-                            <small>$ per property</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="ltv-ratio">Loan-to-Value Ratio</label>
-                            <input type="range" id="ltv-ratio" value="75" min="60" max="80" step="5" oninput="updateLTVDisplay()">
-                            <div style="display: flex; justify-content: space-between;">
-                                <small>60%</small>
-                                <span id="ltv-display">75%</span>
-                                <small>80%</small>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="interest-rate">Interest Rate (APR)</label>
-                            <input type="number" id="interest-rate" value="6.8" step="0.1" min="3" max="12">
-                            <small>%</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="loan-term">Loan Term</label>
-                            <input type="number" id="loan-term" value="30" min="15" max="30">
-                            <small>Years</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="closing-costs">Closing & Financing Costs</label>
-                            <input type="number" id="closing-costs" value="3.5" step="0.5" min="1" max="8">
-                            <small>% of property price</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="vacancy-rate">Vacancy Rate</label>
-                            <input type="number" id="vacancy-rate" value="4.5" step="0.5" min="0" max="15">
-                            <small>% (annual vacancy allowance)</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="maintenance-rate">Maintenance Costs</label>
-                            <input type="number" id="maintenance-rate" value="1.2" step="0.25" min="0.5" max="3">
-                            <small>% of rent per year</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="management-rate">Property Management</label>
-                            <input type="number" id="management-rate" value="8.5" step="0.5" min="0" max="15">
-                            <small>% of gross rent</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="property-tax">Property Taxes</label>
-                            <input type="number" id="property-tax" value="1.1" step="0.1" min="0.5" max="2">
-                            <small>% of property value per year</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="insurance-cost">Insurance Cost</label>
-                            <input type="number" id="insurance-cost" value="1500" step="100">
-                            <small>$ per property per year</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="rent-growth">Annual Rent Growth</label>
-                            <input type="number" id="rent-growth" value="3.5" step="0.5" min="0" max="8">
-                            <small>%</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="appreciation">Property Appreciation</label>
-                            <input type="number" id="appreciation" value="5.0" step="0.5" min="0" max="10">
-                            <small>% per year</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="expense-inflation">Expense Inflation</label>
-                            <input type="number" id="expense-inflation" value="2.8" step="0.25" min="0" max="5">
-                            <small>% per year</small>
-                        </div>
-                    </div>
-
-                    <!-- Lending Criteria -->
-                    <h3>Lending & Investment Strategy</h3>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="dscr-target">Target DSCR</label>
-                            <input type="number" id="dscr-target" value="1.20" step="0.05" min="1.05" max="1.50">
-                            <small>Debt Service Coverage Ratio (minimum to qualify)</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="refi-ltv-threshold">Refi LTV Threshold</label>
-                            <input type="number" id="refi-ltv-threshold" value="75" step="5" min="60" max="90">
-                            <small>% (when to refinance to pull cash out)</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="refi-seasoning">Minimum Seasoning Period</label>
-                            <input type="number" id="refi-seasoning" value="6" min="0" max="24">
-                            <small>Months before refinancing</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="refi-rate-delta">Refi Rate Improvement</label>
-                            <input type="number" id="refi-rate-delta" value="0.75" step="0.25" min="0" max="2">
-                            <small>% better rate required to refinance</small>
-                        </div>
-                    </div>
-
-                    <div style="text-align: center; margin: 2rem 0;">
-                        <button id="calculate-btn" class="btn" onclick="calculateRetirement()">Calculate Your Retirement Plan</button>
-                        <button id="reset-btn" class="btn btn-secondary" onclick="resetCalculator()">Reset to Defaults</button>
-                    </div>
-                </div>
-
-                <!-- Results Section -->
-                <div id="results-container" style="display: none;">
-                    <h2 style="text-align: center; margin-bottom: 2rem;">Your Retirement Analysis</h2>
-
-                    <!-- Key Metrics -->
-                    <div class="features-grid" style="margin-bottom: 2rem;">
-                        <div class="result-card" style="text-align: center;">
-                            <h3>Time to Target Income</h3>
-                            <div id="time-to-target" class="metric-value">-- years</div>
-                        </div>
-                        <div class="result-card" style="text-align: center;">
-                            <h3>Properties Needed</h3>
-                            <div id="properties-needed" class="metric-value">-- doors</div>
-                        </div>
-                        <div class="result-card" style="text-align: center;">
-                            <h3>Peak Cash Flow</h3>
-                            <div id="peak-cashflow" class="metric-value">$--/month</div>
-                        </div>
-                        <div class="result-card" style="text-align: center;">
-                            <h3>Portfolio Value</h3>
-                            <div id="portfolio-value" class="metric-value">$--</div>
-                        </div>
-                    </div>
-
-                    <!-- Charts -->
-                    <div class="chart-container">
-                        <h3>Cash Flow vs Target Income</h3>
-                        <canvas id="cashflow-chart" width="400" height="200"></canvas>
-                    </div>
-
-                    <div class="chart-container">
-                        <h3>Portfolio Growth: Equity vs Loan Balance</h3>
-                        <canvas id="portfolio-chart" width="400" height="200"></canvas>
-                    </div>
-
-                    <div class="chart-container">
-                        <h3>Properties Owned Over Time</h3>
-                        <canvas id="doors-chart" width="400" height="200"></canvas>
-                    </div>
-
-                    <div class="chart-container">
-                        <h3>DSCR Trend (Debt Service Coverage Ratio)</h3>
-                        <canvas id="dscr-chart" width="400" height="200"></canvas>
-                    </div>
-
-                    <div style="text-align: center; margin: 2rem 0;">
-                        <p style="font-style: italic; color: #666; margin-bottom: 1rem;">Ready to make this plan a reality?</p>
-                        <a href="https://www.jakenfinancegroup.com" target="_blank" rel="noopener" class="btn">Connect with Jaken Finance Group</a>
+                    <div class="feature-card">
+                        <h3>⚡ Production Ready</h3>
+                        <p>Static site architecture with zero maintenance, automatic GitHub→Netlify deployment, SEO optimization, and professional business presentation.</p>
                     </div>
                 </div>
             </div>
@@ -454,12 +284,12 @@
         <!-- CTA Section -->
         <section class="cta-section">
             <div class="container">
-                <h2>Ready to Learn Advanced Real Estate Strategies?</h2>
-                <p>Download our free investment guides and case studies. Learn how to scale your real estate portfolio effectively.</p>
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-                    <a href="#calculator" class="btn">Use Calculator</a>
-                    <a href="/articles" class="btn btn-secondary">Read Articles</a>
-                    <a href="https://www.jakenfinancegroup.com" target="_blank" class="btn">Get Financing Help</a>
+                <h2>Start Planning Your Real Estate Retirement Today</h2>
+                <p class="subtitle">Get access to professional investment tools and comprehensive educational resources that will help you build lasting wealth through rental properties.</p>
+                <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+                    <a href="/retirement-calculator" class="btn">Try the Calculator Now</a>
+                    <a href="/articles" class="btn btn-secondary">Learn Investment Strategies</a>
+                    <a href="https://www.jakenfinancegroup.com" target="_blank" class="btn">Talk to Funding Experts</a>
                 </div>
             </div>
         </section>
@@ -470,6 +300,7 @@
             <div style="display: flex; justify-content: center; gap: 2rem; margin: 2rem 0; opacity: 0.8;">
                 <div>✓ Educational Content</div>
                 <div>✓ Portfolio & Investment Financing</div>
+                <div>✓ Free Retirement Calculator</div>
             </div>
             <p><strong>Real Estate Retirement Calculator</strong> - Educational tool for estimating retirement timelines through rental property investments.</p>
             <p style="margin: 1rem 0;"><em>Not a commitment to lend. Terms subject to underwriting, property valuation, market conditions, and investor qualification. This calculator uses assumptions that may not reflect actual market conditions. Consult with a qualified financial advisor.</em></p>
@@ -477,43 +308,32 @@
         </div>
     </footer>
 
-    <!-- Load JavaScript Modules -->
-    <script type="module">
-        // Import core modules
-        import { calculateRetirement, resetCalculator } from '/js/calculator.js';
-        import { calculateResults } from '/js/calculator.js?type=results';
-        import { initCharts, updateCharts } from '/js/charts.js';
-        import { initRouter } from '/js/router.js';
-        import { initSEO } from '/js/seo.js';
-        import { initFormHandling } from '/js/forms.js';
-        import { initPages } from '/js/pages.js';
-
-        // Make functions globally available for onclick handlers
-        window.calculateRetirement = calculateRetirement;
-        window.resetCalculator = resetCalculator;
-        window.calculateResults = calculateResults;
-        window.updateCharts = updateCharts;
-
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', () => {
-            initRouter();
-            initSEO();
-            initCharts();
-            initFormHandling();
-            initPages();
-
-            // Update LTV display on page load
+    <!-- Simple Navigation Script -->
+    <script>
+        // Simple client-side router for navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update LTV display for any sliders on page
             updateLTVDisplay();
+
+            // Simple form validation if calculator exists
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Please navigate to /retirement-calculator for the full calculator experience.');
+                });
+            }
         });
 
         function updateLTVDisplay() {
             const slider = document.getElementById('ltv-ratio');
-            const display = document.getElementById('ltv-display');
-            display.textContent = slider.value + '%';
+            if (slider) {
+                const display = document.getElementById('ltv-display');
+                if (display) {
+                    display.textContent = slider.value + '%';
+                }
+            }
         }
-
-        // Make LTV display function globally available
-        window.updateLTVDisplay = updateLTVDisplay;
     </script>
 </body>
 </html>
