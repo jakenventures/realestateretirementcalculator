@@ -4,49 +4,25 @@
 class ChartManager {
     constructor() {
         this.charts = {};
-        this.resizeObserver = null;
-        this.initResizeObserver();
-    }
-
-    initResizeObserver() {
-        this.resizeObserver = new ResizeObserver(entries => {
-            entries.forEach(entry => {
-                const canvas = entry.target;
-                if (canvas.chartId) {
-                    this.resizeChart(canvas.chartId);
-                }
-            });
-        });
-    }
-
-    resizeChart(chartId) {
-        const canvas = document.getElementById(chartId);
-        if (!canvas) return;
-
-        const rect = canvas.getBoundingClientRect();
-        const dpr = window.devicePixelRatio || 1;
-
-        canvas.width = rect.width * dpr;
-        canvas.height = rect.height * dpr;
-
-        const ctx = canvas.getContext('2d');
-        ctx.scale(dpr, dpr);
-
-        // Re-render chart
-        if (this.charts[chartId]) {
-            this.renderChart(chartId, this.charts[chartId].data, this.charts[chartId].type);
-        }
+        this.renderingLocks = new Set(); // Prevent simultaneous renders
     }
 
     initCharts() {
+        // Initialize all canvases with fixed dimensions to prevent flickering
         const chartIds = ['cashflow-chart', 'portfolio-chart', 'doors-chart', 'dscr-chart'];
 
         chartIds.forEach(id => {
             const canvas = document.getElementById(id);
             if (canvas) {
-                this.resizeObserver.observe(canvas);
-                canvas.chartId = id;
-                this.resizeChart(id);
+                // Set fixed initial dimensions
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = 400 * dpr;
+                canvas.height = 200 * dpr;
+
+                const ctx = canvas.getContext('2d');
+                ctx.scale(dpr, dpr);
+
+                // Don't use resizeObserver for now to prevent flickering
             }
         });
     }
@@ -140,31 +116,36 @@ class ChartManager {
             return;
         }
 
-        const rect = canvas.getBoundingClientRect();
-        console.log(`Rendering ${canvasId}`, { rect, canvasWidth: canvas.width, canvasHeight: canvas.height });
+        // Prevent multiple simultaneous renders of the same chart
+        if (this.renderingLocks.has(canvasId)) {
+            return;
+        }
 
-        // Store chart data for resizing
+        this.renderingLocks.add(canvasId);
+
+        // Store chart data
         this.charts[canvasId] = { data, type: chartType };
 
-        // Force dimensions even if canvas is not visible
+        // Set fixed dimensions for stability
         const dpr = window.devicePixelRatio || 1;
-        const forceWidth = rect.width || 400;
-        const forceHeight = rect.height || 200;
+        const width = 400;
+        const height = 200;
 
-        canvas.width = forceWidth * dpr;
-        canvas.height = forceHeight * dpr;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
         ctx.scale(dpr, dpr);
 
-        console.log(`Canvas dimensions after forcing:`, { width: canvas.width, height: canvas.height, scale: dpr });
-
         // Clear canvas
-        ctx.clearRect(0, 0, forceWidth, forceHeight);
+        ctx.clearRect(0, 0, width, height);
 
-        if (!data.datasets || data.datasets.length === 0) return;
+        if (!data.datasets || data.datasets.length === 0) {
+            this.renderingLocks.delete(canvasId);
+            return;
+        }
 
         const padding = 60;
-        const innerWidth = forceWidth - padding * 2;
-        const innerHeight = forceHeight - padding * 2;
+        const innerWidth = width - padding * 2;
+        const innerHeight = height - padding * 2;
 
         // Calculate scales
         const allValues = data.datasets.flatMap(ds => ds.data);
@@ -178,26 +159,28 @@ class ChartManager {
 
         // X-axis
         ctx.beginPath();
-        ctx.moveTo(padding, forceHeight - padding);
-        ctx.lineTo(forceWidth - padding, forceHeight - padding);
+        ctx.moveTo(padding, height - padding);
+        ctx.lineTo(width - padding, height - padding);
         ctx.stroke();
 
         // Y-axis
         ctx.beginPath();
         ctx.moveTo(padding, padding);
-        ctx.lineTo(padding, forceHeight - padding);
+        ctx.lineTo(padding, height - padding);
         ctx.stroke();
 
         // Grid lines and labels
-        this.drawGridAndLabels(ctx, data, { width: forceWidth, height: forceHeight }, padding, minValue, maxValue, valueRange, innerWidth, innerHeight);
+        this.drawGridAndLabels(ctx, data, { width, height }, padding, minValue, maxValue, valueRange, innerWidth, innerHeight);
 
         // Draw datasets
         data.datasets.forEach((dataset, datasetIndex) => {
-            this.drawDataset(ctx, dataset, data.labels, { width: forceWidth, height: forceHeight }, padding, minValue, valueRange, innerWidth, innerHeight, chartType, datasetIndex);
+            this.drawDataset(ctx, dataset, data.labels, { width, height }, padding, minValue, valueRange, innerWidth, innerHeight, chartType, datasetIndex);
         });
 
         // Draw legend
-        this.drawLegend(ctx, data.datasets, { width: forceWidth, height: forceHeight }, padding);
+        this.drawLegend(ctx, data.datasets, { width, height }, padding);
+
+        this.renderingLocks.delete(canvasId);
     }
 
     drawGridAndLabels(ctx, data, rect, padding, minValue, maxValue, valueRange, innerWidth, innerHeight) {
@@ -343,16 +326,6 @@ class ChartManager {
         if (!canvas) return null;
 
         return canvas.toDataURL('image/png');
-    }
-
-    // Utility: Format number for display
-    formatNumber(num) {
-        if (num >= 1000000) {
-            return `$${(num / 1000000).toFixed(1)}M`;
-        } else if (num >= 1000) {
-            return `$${(num / 1000).toFixed(1)}k`;
-        }
-        return `$${num.toFixed(0)}`;
     }
 }
 
