@@ -1,286 +1,291 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!--
-    README: Real Estate Retirement Calculator - Deployment Instructions
-
-    1. Git Setup & Push:
-    git init
-    git branch -M main
-    git remote add origin https://github.com/jakenventures/realestateretirementcalculator.git
-    git add .
-    git commit -m "Initial commit: Real Estate Retirement Calculator"
-    git push -u origin main
-
-    2. Netlify Deployment:
-    - Go to Netlify, click "Add new site" → "Import from Git"
-    - Choose GitHub, select jakenventures/realestateretirementcalculator
-    - Build command: (leave blank)
-    - Publish directory: .
-    - Add environment variable: BASE_URL = your Netlify site URL (e.g., https://realestateretirementcalculator.netlify.app)
-
-    3. Project Structure:
-    - 50+ SEO-optimized articles in /articles/
-    - Calculator in /retirement-calculator
-    - Static files: sitemap.xml, robots.txt, netlify.toml, _redirects
-    -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Calculate your real estate retirement timeline with our DSCR mortgage calculator. Access 50+ comprehensive real estate investment articles covering strategies, markets, and financing.">
-    <meta name="keywords" content="real estate retirement calculator, DSCR calculator, rental property retirement, real estate investment articles, property financing">
-
-    <!-- SEO Meta Tags -->
-    <title>Real Estate Retirement Calculator | 50+ Investment Articles</title>
-    <link rel="canonical" href="https://realestateretirementcalculator.netlify.app/">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-
-    <!-- Critical CSS -->
-    <style>
-        :root {
-            --primary: #FFD300;
-            --ink: #111111;
-            --white: #FFFFFF;
-            --surface: #F5F5F5;
-            --border: #EDEDED;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: var(--ink);
-            background: var(--surface);
-        }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
-
-        nav {
-            position: sticky;
-            top: 0;
-            background: var(--white);
-            border-bottom: 1px solid var(--border);
-            z-index: 100;
-        }
-
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
-
-        .logo {
-            font-weight: bold;
-            font-size: 1.25rem;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .nav-links a {
-            color: var(--ink);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            transition: background 0.2s;
-        }
-
-        .nav-links a:hover { background: var(--surface); }
-
-        .hero {
-            text-align: center;
-            padding: 3rem 1rem;
-            background: linear-gradient(135deg, var(--white) 0%, var(--surface) 100%);
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero .subtitle {
-            font-size: 1.25rem;
-            color: #666;
-            margin-bottom: 2rem;
-        }
-
-        .btn {
-            display: inline-block;
-            background: var(--primary);
-            color: var(--ink);
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-        }
-
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,211,0,0.3); }
-
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--ink);
-        }
-
-        .features {
-            padding: 3rem 0;
-            background: var(--white);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .feature-card {
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .feature-card h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .cta-section {
-            background: var(--primary);
-            color: var(--ink);
-            text-align: center;
-            padding: 3rem 1rem;
-        }
-
-        .cta-section h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        footer {
-            background: var(--ink);
-            color: var(--white);
-            text-align: center;
-            padding: 2rem 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hero h1 { font-size: 2rem; }
-        }
-    </style>
-</head>
-<body>
-    <nav>
-        <div class="container nav-content">
-            <a href="/" class="logo">Real Estate Retirement Calculator</a>
-            <div class="nav-links">
-                <a href="/retirement-calculator">Calculator</a>
-                <a href="/articles">Articles</a>
-            </div>
-        </div>
-    </nav>
-
-    <main>
-        <section class="hero">
+<!-- Calculator Section -->
+        <section class="calculator-section" style="padding: 3rem 0; background: var(--white);">
             <div class="container">
-                <h1>Master Real Estate Retirement Planning</h1>
-                <p class="subtitle">Complete calculator with 50+ SEO-optimized articles covering every aspect of real estate investment strategies, financing, and market analysis.</p>
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0;">
-                    <a href="/retirement-calculator" class="btn">Try Calculator</a>
-                    <a href="/articles" class="btn btn-secondary">Browse Articles</a>
+                <div class="calculator-card" style="background: var(--surface); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <h2 style="margin-bottom: 1.5rem; text-align: center;">Your Retirement Calculator</h2>
+
+                    <!-- Personal Information -->
+                    <h3>Personal Details</h3>
+                    <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="current-age" style="font-weight: 600; margin-bottom: 0.5rem;">Current Age</label>
+                            <input type="number" id="current-age" value="35" min="18" max="80" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">Years</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="retirement-age" style="font-weight: 600; margin-bottom: 0.5rem;">Target Retirement Age</label>
+                            <input type="number" id="retirement-age" value="65" min="50" max="90" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">Years</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="current-savings" style="font-weight: 600; margin-bottom: 0.5rem;">Current Real Estate Savings</label>
+                            <input type="number" id="current-savings" value="100000" step="1000" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">$ (cash on hand for down payments)</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="monthly-contribution" style="font-weight: 600; margin-bottom: 0.5rem;">Monthly Investment</label>
+                            <input type="number" id="monthly-contribution" value="3000" step="100" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">$ (additional savings per month)</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="target-income" style="font-weight: 600; margin-bottom: 0.5rem;">Target Monthly Retirement Income</label>
+                            <input type="number" id="target-income" value="8000" step="500" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">$ (desired cash flow per month)</small>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <button id="calculate-btn" style="background: var(--primary); color: var(--ink); padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;" onclick="window.calculateRetirement()">Calculate Your Retirement Plan</button>
+                        <button id="reset-btn" style="background: transparent; border: 2px solid var(--primary); color: var(--ink); padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; margin-left: 1rem;" onclick="window.resetCalculator()">Reset to Defaults</button>
+                    </div>
                 </div>
-                <div style="max-width: 600px; margin: 0 auto; color: #666; font-size: 1.1rem; line-height: 1.6;">
-                    <strong>✓ Professional Retirement Calculator</strong> - DSCR modeling, refinance strategies, portfolio scaling<br>
-                    <strong>✓ 50+ Comprehensive Articles</strong> - BRRRR, House Hacking, Syndication, Market Analysis<br>
-                    <strong>✓ Educational Content Only</strong> - No licensing claims, pure investor education
-                </div>
-            </div>
-        </section>
 
-        <section class="features">
-            <div class="container">
-                <h2 style="text-align: center; margin-bottom: 2rem;">Built for Real Estate Investors</h2>
+                <!-- Results Section -->
+                <div id="results-container" style="display: none;">
+                    <h2 style="text-align: center; margin-bottom: 2rem;">Your Retirement Analysis</h2>
 
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <h3>🔧 Advanced Calculator</h3>
-                        <p>DSCR ratios, refinance modeling, property scaling strategies, what-if scenarios, and comprehensive financial projections.</p>
+                    <!-- Key Metrics -->
+                    <div class="features-grid">
+                        <div style="background: var(--white); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary); text-align: center;">
+                            <h3>Time to Target Income</h3>
+                            <div id="time-to-target" style="font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-top: 0.5rem;">-- years</div>
+                        </div>
+                        <div style="background: var(--white); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary); text-align: center;">
+                            <h3>Properties Needed</h3>
+                            <div id="properties-needed" style="font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-top: 0.5rem;">-- doors</div>
+                        </div>
+                        <div style="background: var(--white); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary); text-align: center;">
+                            <h3>Peak Cash Flow</h3>
+                            <div id="peak-cashflow" style="font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-top: 0.5rem;">$--/month</div>
+                        </div>
+                        <div style="background: var(--white); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary); text-align: center;">
+                            <h3>Portfolio Value</h3>
+                            <div id="portfolio-value" style="font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-top: 0.5rem;">$--</div>
+                        </div>
                     </div>
 
-                    <div class="feature-card">
-                        <h3>📚 50+ SEO Articles</h3>
-                        <p>Coverage of strategies (BRRRR, Syndication), locations (Chicago, Austin, Tampa), property types, and financing options.</p>
+                    <!-- Charts -->
+                    <div style="background: var(--white); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin: 2rem 0;">
+                        <h3 style="margin-bottom: 1rem;">Cash Flow vs Target Income</h3>
+                        <canvas id="cashflow-chart" width="400" height="200"></canvas>
                     </div>
 
-                    <div class="feature-card">
-                        <h3>🎯 Lead Generation</h3>
-                        <p>Educational funnel to JakEn Finance Group with strategic CTAs and UTM tracking for qualified investor leads.</p>
+                    <div style="background: var(--white); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin: 2rem 0;">
+                        <h3 style="margin-bottom: 1rem;">Portfolio Growth: Equity vs Loan Balance</h3>
+                        <canvas id="portfolio-chart" width="400" height="200"></canvas>
                     </div>
 
-                    <div class="feature-card">
-                        <h3>📊 Working Charts</h3>
-                        <p>Interactive visualizations of cash flow, equity buildup, property acquisition, and DSCR trends with 0-10 property scaling.</p>
+                    <div style="background: var(--white); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin: 2rem 0;">
+                        <h3 style="margin-bottom: 1rem;">Properties Owned Over Time</h3>
+                        <canvas id="doors-chart" width="400" height="200"></canvas>
                     </div>
 
-                    <div class="feature-card">
-                        <h3>🎨 Modern UI</h3>
-                        <p>Mobile-first design, WCAG accessible, responsive across all devices, performance optimized for SEO ranking.</p>
+                    <div style="background: var(--white); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin: 2rem 0;">
+                        <h3 style="margin-bottom: 1rem;">DSCR Trend (Debt Service Coverage Ratio)</h3>
+                        <canvas id="dscr-chart" width="400" height="200"></canvas>
                     </div>
 
-                    <div class="feature-card">
-                        <h3>⚡ Production Ready</h3>
-                        <p>Static site, no maintenance, Netlify deployment, GitHub integration, professional business website.</p>
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <p style="font-style: italic; color: #666; margin-bottom: 1rem;">Ready to make this plan a reality?</p>
+                        <a href="https://www.jakenfinancegroup.com" target="_blank" style="background: var(--primary); color: var(--ink); padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; text-decoration: none;">Connect with Jaken Finance Group</a>
                     </div>
                 </div>
             </div>
         </section>
-
-        <section class="cta-section">
+=======
+        <!-- Calculator Section -->
+        <section class="calculator-section" style="padding: 3rem 0; background: var(--white);">
             <div class="container">
-                <h2>Start Your Real Estate Retirement Planning Today</h2>
-                <p>Get access to comprehensive retirement planning tools and educational resources.</p>
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-                    <a href="/retirement-calculator" class="btn">Use Calculator</a>
-                    <a href="/articles" class="btn btn-secondary">Read Articles</a>
-                    <a href="https://www.jakenfinancegroup.com" target="_blank" class="btn">Get Financing Help</a>
+                <div class="calculator-card" style="background: var(--surface); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <h2 style="margin-bottom: 1.5rem; text-align: center;">Your Retirement Calculator</h2>
+
+                    <!-- Personal Information -->
+                    <h3>Personal Details</h3>
+                    <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="current-age" style="font-weight: 600; margin-bottom: 0.5rem;">Current Age</label>
+                            <input type="number" id="current-age" value="35" min="18" max="80" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">Years</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="retirement-age" style="font-weight: 600; margin-bottom: 0.5rem;">Target Retirement Age</label>
+                            <input type="number" id="retirement-age" value="65" min="50" max="90" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">Years</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="current-savings" style="font-weight: 600; margin-bottom: 0.5rem;">Current Real Estate Savings</label>
+                            <input type="number" id="current-savings" value="100000" step="1000" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">$ (cash on hand for down payments)</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="monthly-contribution" style="font-weight: 600; margin-bottom: 0.5rem;">Monthly Investment</label>
+                            <input type="number" id="monthly-contribution" value="3000" step="100" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">$ (additional savings per month)</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="target-income" style="font-weight: 600; margin-bottom: 0.5rem;">Target Monthly Retirement Income</label>
+                            <input type="number" id="target-income" value="8000" step="500" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">$ (desired cash flow per month)</small>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Information -->
+                    <h3>Property Portfolio</h3>
+                    <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="starting-doors" style="font-weight: 600; margin-bottom: 0.5rem;">Starting Properties</label>
+                            <input type="number" id="starting-doors" value="0" min="0" max="10" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">Number of doors you already own</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="avg-price" style="font-weight: 600; margin-bottom: 0.5rem;">Average Property Price</label>
+                            <input type="number" id="avg-price" value="400000" step="10000" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">$ per property</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="ltv-ratio" style="font-weight: 600; margin-bottom: 0.5rem;">Loan-to-Value Ratio</label>
+                            <input type="range" id="ltv-ratio" value="75" min="60" max="80" step="5" oninput="window.updateLTVDisplay()" style="width: 100%;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <small style="font-size: 0.875rem;">60%</small>
+                                <span id="ltv-display" style="font-weight: 600;">75%</span>
+                                <small style="font-size: 0.875rem;">80%</small>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="interest-rate" style="font-weight: 600; margin-bottom: 0.5rem;">Interest Rate (APR)</label>
+                            <input type="number" id="interest-rate" value="6.8" step="0.1" min="3" max="12" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">%</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="loan-term" style="font-weight: 600; margin-bottom: 0.5rem;">Loan Term</label>
+                            <input type="number" id="loan-term" value="30" min="15" max="30" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">Years</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="closing-costs" style="font-weight: 600; margin-bottom: 0.5rem;">Closing & Financing Costs</label>
+                            <input type="number" id="closing-costs" value="3.5" step="0.5" min="1" max="8" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">% of property price</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="vacancy-rate" style="font-weight: 600; margin-bottom: 0.5rem;">Vacancy Rate</label>
+                            <input type="number" id="vacancy-rate" value="4.5" step="0.5" min="0" max="15" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">% (annual vacancy allowance)</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="maintenance-rate" style="font-weight: 600; margin-bottom: 0.5rem;">Maintenance Costs</label>
+                            <input type="number" id="maintenance-rate" value="1.2" step="0.25" min="0.5" max="3" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">% of rent per year</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="management-rate" style="font-weight: 600; margin-bottom: 0.5rem;">Property Management</label>
+                            <input type="number" id="management-rate" value="8.5" step="0.5" min="0" max="15" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">% of gross rent</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="property-tax" style="font-weight: 600; margin-bottom: 0.5rem;">Property Taxes</label>
+                            <input type="number" id="property-tax" value="1.1" step="0.1" min="0.5" max="2" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">% of property value per year</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="insurance-cost" style="font-weight: 600; margin-bottom: 0.5rem;">Insurance Cost</label>
+                            <input type="number" id="insurance-cost" value="1500" step="100" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">$ per property per year</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="rent-growth" style="font-weight: 600; margin-bottom: 0.5rem;">Annual Rent Growth</label>
+                            <input type="number" id="rent-growth" value="3.5" step="0.5" min="0" max="8" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">%</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="appreciation" style="font-weight: 600; margin-bottom: 0.5rem;">Property Appreciation</label>
+                            <input type="number" id="appreciation" value="5.0" step="0.5" min="0" max="10" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">% per year</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="expense-inflation" style="font-weight: 600; margin-bottom: 0.5rem;">Expense Inflation</label>
+                            <input type="number" id="expense-inflation" value="2.8" step="0.25" min="0" max="5" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">% per year</small>
+                        </div>
+                    </div>
+
+                    <!-- Lending Criteria -->
+                    <h3>Lending & Investment Strategy</h3>
+                    <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="dscr-target" style="font-weight: 600; margin-bottom: 0.5rem;">Target DSCR</label>
+                            <input type="number" id="dscr-target" value="1.20" step="0.05" min="1.05" max="1.50" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">Debt Service Coverage Ratio (minimum to qualify)</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="refi-ltv-threshold" style="font-weight: 600; margin-bottom: 0.5rem;">Refi LTV Threshold</label>
+                            <input type="number" id="refi-ltv-threshold" value="75" step="5" min="60" max="90" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">% (when to refinance to pull cash out)</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="refi-seasoning" style="font-weight: 600; margin-bottom: 0.5rem;">Minimum Seasoning Period</label>
+                            <input type="number" id="refi-seasoning" value="6" min="0" max="24" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">Months before refinancing</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="refi-rate-delta" style="font-weight: 600; margin-bottom: 0.5rem;">Refi Rate Improvement</label>
+                            <input type="number" id="refi-rate-delta" value="0.75" step="0.25" min="0" max="2" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <small style="margin-top: 0.25rem; font-size: 0.875rem;">% better rate required to refinance</small>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <button id="calculate-btn" style="background: var(--primary); color: var(--ink); padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;" onclick="window.calculateRetirement()">Calculate Your Retirement Plan</button>
+                        <button id="reset-btn" style="background: transparent; border: 2px solid var(--primary); color: var(--ink); padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; margin-left: 1rem;" onclick="window.resetCalculator()">Reset to Defaults</button>
+                    </div>
                 </div>
-            </div>
-        </section>
-    </main>
 
-    <footer>
-        <div class="container">
-            <p><strong>Real Estate Retirement Calculator</strong> - Educational tool for estimating retirement timelines through rental property investments.</p>
-            <p>Not a commitment to lend. Terms subject to underwriting, property valuation, market conditions, and investor qualification.</p>
-            <p><a href="https://www.jakenfinancegroup.com" target="_blank">© 2023 Jaken Finance Group</a></p>
-        </div>
-    </footer>
+                <!-- Results Section -->
+                <div id="results-container" style="display: none;">
+                    <h2 style="text-align: center; margin-bottom: 2rem;">Your Retirement Analysis</h2>
 
-    <!-- Simple JavaScript for navigation -->
-    <script>
-        // Simple client-side router for navigation
-        document.addEventListener('click', function(e) {
-            const link = e.target.closest('a[href]');
-            if (link && link.href.startsWith(window.location.origin) &&
-                (link.getAttribute('target') !== '_blank')) {
-                e.preventDefault();
-                window.location.href = link.href;
-            }
-        });
-    </script>
-</body>
-</html>
+                    <!-- Key Metrics -->
+                    <div class="features-grid">
+                        <div style="background: var(--white); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary); text-align: center;">
+                            <h3>Time to Target Income</h3>
+                            <div id="time-to-target" style="font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-top: 0.5rem;">-- years</div>
+                        </div>
+                        <div style="background: var(--white); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary); text-align: center;">
+                            <h3>Properties Needed</h3>
+                            <div id="properties-needed" style="font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-top: 0.5rem;">-- doors</div>
+                        </div>
+                        <div style="background: var(--white); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary); text-align: center;">
+                            <h3>Peak Cash Flow</h3>
+                            <div id="peak-cashflow" style="font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-top: 0.5rem;">$--/month</div>
+                        </div>
+                        <div style="background: var(--white); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary); text-align: center;">
+                            <h3>Portfolio Value</h3>
+                            <div id="portfolio-value" style="font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-top: 0.5rem;">$--</div>
+                        </div>
+                    </div>
+
+                    <!-- Charts -->
+                    <div style="background: var(--white); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin: 2rem 0;">
+                        <h3 style="margin-bottom: 1rem;">Cash Flow vs Target Income</h3>
+                        <canvas id="cashflow-chart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div style="background: var(--white); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin: 2rem 0;">
+                        <h3 style="margin-bottom: 1rem;">Portfolio Growth: Equity vs Loan Balance</h3>
+                        <canvas id="portfolio-chart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div style="background: var(--white); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin: 2rem 0;">
+                        <h3 style="margin-bottom: 1rem;">Properties Owned Over Time</h3>
+                        <canvas id="doors-chart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div style="background: var(--white); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin: 2rem 0;">
+                        <h3 style="margin-bottom: 1rem;">DSCR Trend (Debt Service Coverage Ratio)</h3>
+                        <canvas id="dscr-chart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <p style="font-style: italic; color: #666; margin-bottom: 1rem;">Ready to make this plan a reality?</p>
+                        <a href="https://www.jakenfinancegroup.com" target="_blank" style="background: var(--primary); color: var(--ink); padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; text-decoration: none;">Connect with Jaken Finance Group</a>
+                    </div>
+                </div>
