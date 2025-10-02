@@ -93,6 +93,10 @@
     text-align: center;
     border-top: 4px solid var(--primary);
     transition: transform 0.3s;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .metric-card:hover {
@@ -101,17 +105,24 @@
 }
 
 .metric-card h4 {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #666;
     margin-bottom: 0.5rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    line-height: 1.2;
+    min-height: 2.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .metric-card .metric-value {
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: bold;
     color: var(--ink);
+    word-break: break-word;
+    line-height: 1.2;
 }
 
 /* Charts */

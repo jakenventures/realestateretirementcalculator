@@ -12,9 +12,8 @@ class SEOManager {
     }
 
     getBaseUrl() {
-        // Try to get from environment variable, fallback to current origin
-        return (typeof BASE_URL !== 'undefined' && BASE_URL) ||
-               'https://realestateretirementcalculator.netlify.app';
+        // Production domain
+        return 'https://realestateretirementcalculator.com';
     }
 
     getCurrentRoute() {
