@@ -1,32 +1,25 @@
-// Client-side Router Module
-// Handles navigation and content updates for different education/strategy pages
+// Client-side Router Module with Articles Support
+// Handles navigation and content updates for articles and education pages
+
+import { renderArticle, renderArticles } from './articles.js';
 
 class Router {
     constructor() {
-        this.routes = {};
         this.currentRoute = '/';
         this.pageContainer = document.getElementById('app');
+        this.routes = this.getRoutes();
         this.init();
     }
 
-    // Initialize router
     init() {
-        // Load route definitions
-        this.routes = this.getRoutes();
-
-        // Handle initial load
         this.handleRoute(window.location.pathname);
-
-        // Listen for navigation
         this.setupEventListeners();
 
-        // Handle browser back/forward
         window.addEventListener('popstate', (e) => {
             this.handleRoute(window.location.pathname);
         });
     }
 
-    // Set up event listeners for navigation
     setupEventListeners() {
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a[href]');
@@ -38,7 +31,6 @@ class Router {
         });
     }
 
-    // Check if link is internal (same origin)
     isInternalLink(href) {
         try {
             const url = new URL(href, window.location.origin);
@@ -48,7 +40,6 @@ class Router {
         }
     }
 
-    // Extract path from URL
     getPathFromUrl(url) {
         try {
             const urlObj = new URL(url, window.location.origin);
@@ -58,7 +49,6 @@ class Router {
         }
     }
 
-    // Navigate to a route
     navigate(path) {
         if (path !== this.currentRoute) {
             window.history.pushState(null, '', path);
@@ -66,83 +56,51 @@ class Router {
         }
     }
 
-    // Handle route changes
     handleRoute(path) {
         this.currentRoute = path === '/' ? '/' : path.replace(/\/$/, '');
 
-        // Find matching route
-        const route = this.findRoute(this.currentRoute);
+        // Handle articles routes first
+        if (this.currentRoute === '/articles') {
+            this.updateSEOForRoute({ title: 'Real Estate Investment Articles - Comprehensive Guides | Real Estate Retirement Calculator', description: 'Browse our collection of SEO-optimized real estate investment articles covering strategies, locations, property types, and market trends for investors.' });
+            this.renderArticlesPage();
+            return;
+        }
 
+        if (this.currentRoute.startsWith('/articles/')) {
+            const articleSlug = this.currentRoute.replace('/articles/', '');
+            const title = `${articleSlug.split('-').join(' ').replace(/\b\w/g, l => l.toUpperCase())} - Real Estate Investment Guide`;
+            this.updateSEOForRoute({ title, description: 'Detailed real estate investment guide covering strategies, market analysis, and financial planning for successful investing.' });
+            this.renderArticlePage(articleSlug);
+            return;
+        }
+
+        // Handle other routes
+        const route = this.findRoute(this.currentRoute);
         if (route) {
             this.renderPage(route);
-            // Trigger SEO update
-            if (typeof updateRouteSEO === 'function') {
-                updateRouteSEO(this.currentRoute);
-            }
+            this.updateSEOForRoute(route);
         } else {
             this.handle404();
         }
     }
 
-    // Find matching route (with parameter support)
     findRoute(path) {
-        // Exact match first
-        if (this.routes[path]) {
-            return this.routes[path];
-        }
-
-        // Dynamic routes with parameters
-        for (const routePath in this.routes) {
-            const routePattern = this.pathToRegex(routePath);
-            const match = path.match(routePattern);
-
-            if (match && routePattern.test(path)) {
-                const route = { ...this.routes[routePath] };
-                route.params = this.extractParams(routePath, path);
-                return route;
-            }
-        }
-
-        return null;
+        return this.routes[path] || null;
     }
 
-    // Convert path with parameters to regex
-    pathToRegex(path) {
-        return new RegExp('^' + path.replace(/:\w+/g, '([^/]+)') + '$');
-    }
-
-    // Extract parameters from path
-    extractParams(routePath, actualPath) {
-        const params = {};
-        const routeParts = routePath.split('/');
-        const pathParts = actualPath.split('/');
-
-        routeParts.forEach((part, index) => {
-            if (part.startsWith(':')) {
-                const paramName = part.slice(1);
-                params[paramName] = decodeURIComponent(pathParts[index] || '');
-            }
-        });
-
-        return params;
-    }
-
-    // Render page content
     renderPage(route) {
-        this.pageContainer.setAttribute('data-route', this.currentRoute);
-
-        // Update main content area (preserve nav and footer)
-        const pageContent = document.querySelector('.calculator-section');
-        const hero = document.querySelector('.hero');
-
-        // Update hero section with route-specific content
+        // Update hero section
         this.updateHeroSection(route);
-
-        // Scroll to top
+        this.pageContainer.setAttribute('data-route', this.currentRoute);
         window.scrollTo(0, 0);
+
+        // Show calculator section for dynamic routes
+        const calculatorSection = document.querySelector('.calculator-section');
+        if (calculatorSection) {
+            calculatorSection.style.display = this.currentRoute === '/' ? 'block' : 'none';
+        }
     }
 
-    // Update hero section based on route
     updateHeroSection(route) {
         const hero = document.querySelector('.hero');
         if (!hero) return;
@@ -150,25 +108,70 @@ class Router {
         const h1 = hero.querySelector('h1');
         const subtitle = hero.querySelector('.subtitle');
 
-        if (h1) h1.textContent = route.h1 || route.title;
-        if (subtitle) subtitle.textContent = route.subtitle || route.description;
-
-        // Update page-specific CTAs if they exist in route data
-        if (route.primaryCTA) {
-            const ctaButton = hero.querySelector('.btn');
-            if (ctaButton) {
-                ctaButton.href = route.primaryCTA.url;
-                ctaButton.textContent = route.primaryCTA.text;
-            }
-        }
+        if (h1) h1.textContent = route.h1 || 'Real Estate Retirement Calculator';
+        if (subtitle) subtitle.textContent = route.subtitle || route.description || 'Calculate your retirement timeline through rental property investments.';
     }
 
-    // Handle 404 - redirect to home or show 404 page
+    renderArticlesPage() {
+        const calculatorSection = document.querySelector('.calculator-section');
+        if (!calculatorSection) return;
+
+        // Hide calculator and results sections
+        const calculatorCard = calculatorSection.querySelector('.calculator-card');
+        const resultsContainer = document.getElementById('results-container');
+        if (calculatorCard) calculatorCard.style.display = 'none';
+        if (resultsContainer) resultsContainer.style.display = 'none';
+
+        // Create or update articles section
+        let articlesSection = document.querySelector('.articles-page');
+        if (!articlesSection) {
+            articlesSection = document.createElement('div');
+            articlesSection.className = 'articles-page';
+            calculatorSection.appendChild(articlesSection);
+        }
+
+        articlesSection.innerHTML = renderArticles();
+        articlesSection.style.display = 'block';
+
+        // Update hero
+        this.updateHeroSection({
+            h1: 'Real Estate Investment Articles',
+            subtitle: 'Comprehensive guides, strategies, and market analysis for real estate investors.'
+        });
+    }
+
+    renderArticlePage(articleSlug) {
+        const calculatorSection = document.querySelector('.calculator-section');
+        if (!calculatorSection) return;
+
+        // Hide calculator and results sections
+        const calculatorCard = calculatorSection.querySelector('.calculator-card');
+        const resultsContainer = document.getElementById('results-container');
+        if (calculatorCard) calculatorCard.style.display = 'none';
+        if (resultsContainer) resultsContainer.style.display = 'none';
+
+        // Create or update article section
+        let articleSection = document.querySelector('.article-page');
+        if (!articleSection) {
+            articleSection = document.createElement('div');
+            articleSection.className = 'article-page';
+            calculatorSection.appendChild(articleSection);
+        }
+
+        articleSection.innerHTML = renderArticle(articleSlug);
+        articleSection.style.display = 'block';
+    }
+
     handle404() {
         window.location.href = '/404.html';
     }
 
-    // Get route definitions
+    updateSEOForRoute(route) {
+        if (typeof updateRouteSEO === 'function') {
+            updateRouteSEO(this.currentRoute);
+        }
+    }
+
     getRoutes() {
         return {
             '/': {
@@ -201,12 +204,6 @@ class Router {
         };
     }
 
-    // Programmatic navigation (for internal use)
-    goToRoute(route) {
-        this.navigate(route);
-    }
-
-    // Get current route
     getCurrentRoute() {
         return this.currentRoute;
     }
