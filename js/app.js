@@ -5,6 +5,7 @@ import { initRouter } from './router.js';
 import { initSEO } from './seo.js';
 import { initCharts } from './charts.js';
 import { initPages } from './pages.js';
+import { calculateRetirement, resetCalculator } from './calculator.js';
 
 class App {
     constructor() {
@@ -32,6 +33,11 @@ class App {
             // Initialize pages (loads page content)
             initPages();
             console.log('✓ Pages initialized');
+
+            // Make calculator functions globally available
+            window.calculateRetirement = calculateRetirement;
+            window.resetCalculator = resetCalculator;
+            console.log('✓ Calculator functions registered globally');
 
             // Setup global event listeners
             this.setupEventListeners();
