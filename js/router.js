@@ -91,13 +91,29 @@ class Router {
     renderPage(route) {
         // Update hero section
         this.updateHeroSection(route);
-        this.pageContainer.setAttribute('data-route', this.currentRoute);
+        if (this.pageContainer) {
+            this.pageContainer.setAttribute('data-route', this.currentRoute);
+        }
         window.scrollTo(0, 0);
 
-        // Show calculator section for dynamic routes
+        // Control calculator section visibility
         const calculatorSection = document.querySelector('.calculator-section');
-        if (calculatorSection) {
-            calculatorSection.style.display = this.currentRoute === '/' ? 'block' : 'none';
+        const hero = document.querySelector('.hero');
+        const features = document.querySelector('.features');
+        const ctaSection = document.querySelector('.cta-section');
+
+        if (this.currentRoute === '/retirement-calculator') {
+            // Show calculator, hide homepage sections
+            if (calculatorSection) calculatorSection.style.display = 'block';
+            if (hero) hero.style.display = 'none';
+            if (features) features.style.display = 'none';
+            if (ctaSection) ctaSection.style.display = 'none';
+        } else if (this.currentRoute === '/' || this.currentRoute === '') {
+            // Show homepage sections, hide calculator
+            if (calculatorSection) calculatorSection.style.display = 'none';
+            if (hero) hero.style.display = 'block';
+            if (features) features.style.display = 'block';
+            if (ctaSection) ctaSection.style.display = 'block';
         }
     }
 

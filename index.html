@@ -308,32 +308,263 @@
         </div>
     </footer>
 
-    <!-- Simple Navigation Script -->
-    <script>
-        // Simple client-side router for navigation
-        document.addEventListener('DOMContentLoaded', function() {
-            // Update LTV display for any sliders on page
-            updateLTVDisplay();
+    <!-- Dynamic Content Container for SPA -->
+    <div id="app"></div>
 
-            // Simple form validation if calculator exists
-            const form = document.querySelector('form');
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    alert('Please navigate to /retirement-calculator for the full calculator experience.');
-                });
-            }
-        });
+    <!-- Calculator Section (Hidden by default, shown when route = /retirement-calculator) -->
+    <section class="calculator-section" style="display: none; padding: 4rem 0; background: var(--white);">
+        <div class="container">
+            <!-- Calculator Card -->
+            <div class="calculator-card" style="background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 2px 20px rgba(0,0,0,0.08); margin-bottom: 3rem;">
+                <h2 style="margin-bottom: 2rem; text-align: center;">Real Estate Retirement Calculator</h2>
+                
+                <form id="calculator-form">
+                    <!-- Personal Details -->
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="current-age">Current Age</label>
+                                <input type="number" id="current-age" value="35" min="18" max="80">
+                            </div>
+                            <div class="form-group">
+                                <label for="retirement-age">Target Retirement Age</label>
+                                <input type="number" id="retirement-age" value="65" min="30" max="90">
+                            </div>
+                            <div class="form-group">
+                                <label for="current-savings">Current Savings ($)</label>
+                                <input type="number" id="current-savings" value="100000" min="0" step="1000">
+                            </div>
+                            <div class="form-group">
+                                <label for="monthly-contribution">Monthly Contribution ($)</label>
+                                <input type="number" id="monthly-contribution" value="3000" min="0" step="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="target-income">Target Monthly Income ($)</label>
+                                <input type="number" id="target-income" value="8000" min="0" step="500">
+                            </div>
+                        </div>
+                    </div>
 
-        function updateLTVDisplay() {
-            const slider = document.getElementById('ltv-ratio');
-            if (slider) {
-                const display = document.getElementById('ltv-display');
-                if (display) {
-                    display.textContent = slider.value + '%';
-                }
-            }
-        }
-    </script>
+                    <!-- Property Details -->
+                    <div class="form-section">
+                        <h3>Property Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="starting-doors">Starting Properties</label>
+                                <input type="number" id="starting-doors" value="0" min="0" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="avg-price">Average Property Price ($)</label>
+                                <input type="number" id="avg-price" value="400000" min="0" step="10000">
+                            </div>
+                            <div class="form-group">
+                                <label for="ltv-ratio">LTV Ratio (%): <span id="ltv-display">75%</span></label>
+                                <input type="range" id="ltv-ratio" value="75" min="50" max="90" step="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="interest-rate">Interest Rate (%)</label>
+                                <input type="number" id="interest-rate" value="6.8" min="0" max="15" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label for="loan-term">Loan Term (years)</label>
+                                <input type="number" id="loan-term" value="30" min="10" max="30" step="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="closing-costs">Closing Costs (%)</label>
+                                <input type="number" id="closing-costs" value="3.5" min="0" max="10" step="0.5">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Operating Expenses -->
+                    <div class="form-section">
+                        <h3>Operating Expenses</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="vacancy-rate">Vacancy Rate (%)</label>
+                                <input type="number" id="vacancy-rate" value="4.5" min="0" max="20" step="0.5">
+                            </div>
+                            <div class="form-group">
+                                <label for="maintenance-rate">Maintenance (%)</label>
+                                <input type="number" id="maintenance-rate" value="1.2" min="0" max="10" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label for="management-rate">Management (%)</label>
+                                <input type="number" id="management-rate" value="8.5" min="0" max="15" step="0.5">
+                            </div>
+                            <div class="form-group">
+                                <label for="property-tax">Property Tax (%)</label>
+                                <input type="number" id="property-tax" value="1.1" min="0" max="5" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label for="insurance-cost">Annual Insurance ($)</label>
+                                <input type="number" id="insurance-cost" value="1500" min="0" step="100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Growth Rates -->
+                    <div class="form-section">
+                        <h3>Growth Assumptions</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="rent-growth">Rent Growth (%/year)</label>
+                                <input type="number" id="rent-growth" value="3.5" min="0" max="10" step="0.5">
+                            </div>
+                            <div class="form-group">
+                                <label for="appreciation">Appreciation (%/year)</label>
+                                <input type="number" id="appreciation" value="5.0" min="0" max="15" step="0.5">
+                            </div>
+                            <div class="form-group">
+                                <label for="expense-inflation">Expense Inflation (%/year)</label>
+                                <input type="number" id="expense-inflation" value="2.8" min="0" max="10" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DSCR & Refinance -->
+                    <div class="form-section">
+                        <h3>Lending Parameters</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="dscr-target">Target DSCR</label>
+                                <input type="number" id="dscr-target" value="1.25" min="1.0" max="2.0" step="0.05">
+                            </div>
+                            <div class="form-group">
+                                <label for="refi-ltv-threshold">Refi LTV Threshold (%)</label>
+                                <input type="number" id="refi-ltv-threshold" value="80" min="50" max="90" step="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="refi-seasoning">Refi Seasoning (months)</label>
+                                <input type="number" id="refi-seasoning" value="4" min="0" max="24" step="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="refi-rate-delta">Refi Rate Delta (%)</label>
+                                <input type="number" id="refi-rate-delta" value="0.5" min="0" max="2" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                        <button type="submit" id="calculate-btn" class="btn">Calculate Your Retirement Plan</button>
+                        <button type="button" onclick="resetCalculator()" class="btn btn-secondary">Reset to Defaults</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Results Container -->
+            <div id="results-container" style="display: none;">
+                <!-- Key Metrics -->
+                <div class="metrics-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                    <div class="metric-card">
+                        <h4>Time to Target</h4>
+                        <p class="metric-value" id="time-to-target">-</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Properties Needed</h4>
+                        <p class="metric-value" id="properties-needed">-</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Peak Cash Flow</h4>
+                        <p class="metric-value" id="peak-cashflow">-</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Portfolio Value</h4>
+                        <p class="metric-value" id="portfolio-value">-</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>First Refinance</h4>
+                        <p class="metric-value" id="first-refi-age">-</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Cash Invested</h4>
+                        <p class="metric-value" id="cash-invested">-</p>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                    <div class="chart-container">
+                        <h3>Cash Flow vs Target</h3>
+                        <canvas id="cashflow-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Equity vs Loan Balance</h3>
+                        <canvas id="portfolio-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Properties Over Time</h3>
+                        <canvas id="doors-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>DSCR Trend</h3>
+                        <canvas id="dscr-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Year by Year Table -->
+                <div class="table-container" style="overflow-x: auto; margin-bottom: 3rem;">
+                    <h3>Year-by-Year Projection</h3>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Age</th>
+                                <th>Doors</th>
+                                <th>Equity</th>
+                                <th>Loan Balance</th>
+                                <th>Monthly Rent</th>
+                                <th>NOI</th>
+                                <th>DSCR</th>
+                                <th>Cash Flow</th>
+                                <th>Invested</th>
+                            </tr>
+                        </thead>
+                        <tbody id="yearly-body"></tbody>
+                    </table>
+                </div>
+
+                <!-- Scenario Analysis -->
+                <div class="scenarios-section">
+                    <h3>What-If Scenarios</h3>
+                    <div class="scenarios-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div class="scenario-card">
+                            <h4>Lower Contribution (-$250/mo)</h4>
+                            <p id="scenario-lower-contrib">-</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>Higher Contribution (+$250/mo)</h4>
+                            <p id="scenario-higher-contrib">-</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>Lower LTV (70%)</h4>
+                            <p id="scenario-lower-ltv">-</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>Higher LTV (80%)</h4>
+                            <p id="scenario-higher-ltv">-</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>Rate Shock (+1.5%)</h4>
+                            <p id="scenario-rate-shock">-</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>CapEx Event ($20K)</h4>
+                            <p id="scenario-capex">-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Load Stylesheets -->
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/theme.css">
+
+    <!-- Load Application Module -->
+    <script type="module" src="/js/app.js"></script>
 </body>
 </html>
