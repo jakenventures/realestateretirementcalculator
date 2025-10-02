@@ -820,16 +820,19 @@ class ArticlesManager {
 
     getCategoryArticles(categorySlug) {
         const categoryArticles = Object.entries(this.articles)
-            .filter(([slug, article]) => article.category === categorySlug)
-            .slice(0, 4); // Show first 4 articles per category
+            .filter(([slug, article]) => article.category === categorySlug);
+
+        if (categoryArticles.length === 0) {
+            return '<p>No articles available in this category yet.</p>';
+        }
 
         return categoryArticles.map(([slug, article]) => `
-            <article class="article-preview">
-                <h3><a href="/articles/${slug}">${article.title}</a></h3>
-                <p>${article.description.substring(0, 150)}...</p>
-                <div class="article-meta">
-                    <span class="read-time">${article.readTime}</span>
-                    <span class="word-count">${article.wordCount} words</span>
+            <article class="article-preview" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 1rem;">
+                <h3 style="margin-bottom: 0.5rem;"><a href="/articles/${slug}" style="color: var(--ink); text-decoration: none;">${article.title}</a></h3>
+                <p style="color: #666; margin-bottom: 1rem;">${article.description.substring(0, 150)}...</p>
+                <div class="article-meta" style="display: flex; gap: 1rem; font-size: 0.9rem; color: #888;">
+                    <span class="read-time">⏱ ${article.readTime}</span>
+                    <span class="word-count">📄 ${article.wordCount} words</span>
                 </div>
             </article>
         `).join('');

@@ -32,6 +32,10 @@
     <title>Real Estate Retirement Calculator | 50+ Investment Articles</title>
     <link rel="canonical" href="https://realestateretirementcalculator.netlify.app/">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Load Stylesheets -->
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/theme.css">
 
     <!-- Critical CSS -->
     <style>
@@ -293,26 +297,11 @@
                 </div>
             </div>
         </section>
-    </main>
+        <!-- Dynamic Content Container for SPA -->
+        <div id="app"></div>
 
-    <footer>
-        <div class="container">
-            <div style="display: flex; justify-content: center; gap: 2rem; margin: 2rem 0; opacity: 0.8;">
-                <div>✓ Educational Content</div>
-                <div>✓ Portfolio & Investment Financing</div>
-                <div>✓ Free Retirement Calculator</div>
-            </div>
-            <p><strong>Real Estate Retirement Calculator</strong> - Educational tool for estimating retirement timelines through rental property investments.</p>
-            <p style="margin: 1rem 0;"><em>Not a commitment to lend. Terms subject to underwriting, property valuation, market conditions, and investor qualification. This calculator uses assumptions that may not reflect actual market conditions. Consult with a qualified financial advisor.</em></p>
-            <p style="margin-top: 1rem;"><small><a href="https://www.jakenfinancegroup.com" target="_blank" style="color: var(--primary);">© 2023 Jaken Finance Group</a> | <a href="https://www.jakenfinancegroup.com/privacy" target="_blank" style="color: #EDEDED;">Privacy Policy</a></small></p>
-        </div>
-    </footer>
-
-    <!-- Dynamic Content Container for SPA -->
-    <div id="app"></div>
-
-    <!-- Calculator Section (Hidden by default, shown when route = /retirement-calculator) -->
-    <section class="calculator-section" style="display: none; padding: 4rem 0; background: var(--white);">
+        <!-- Calculator Section (Hidden by default, shown when route = /retirement-calculator) -->
+        <section class="calculator-section" style="display: none; padding: 4rem 0; background: var(--white);">
         <div class="container">
             <!-- Calculator Card -->
             <div class="calculator-card" style="background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 2px 20px rgba(0,0,0,0.08); margin-bottom: 3rem;">
@@ -559,10 +548,20 @@
             </div>
         </div>
     </section>
+    </main>
 
-    <!-- Load Stylesheets -->
-    <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/theme.css">
+    <footer>
+        <div class="container">
+            <div style="display: flex; justify-content: center; gap: 2rem; margin: 2rem 0; opacity: 0.8;">
+                <div>✓ Educational Content</div>
+                <div>✓ Portfolio & Investment Financing</div>
+                <div>✓ Free Retirement Calculator</div>
+            </div>
+            <p><strong>Real Estate Retirement Calculator</strong> - Educational tool for estimating retirement timelines through rental property investments.</p>
+            <p style="margin: 1rem 0;"><em>Not a commitment to lend. Terms subject to underwriting, property valuation, market conditions, and investor qualification. This calculator uses assumptions that may not reflect actual market conditions. Consult with a qualified financial advisor.</em></p>
+            <p style="margin-top: 1rem;"><small><a href="https://www.jakenfinancegroup.com" target="_blank" style="color: var(--primary);">© 2023 Jaken Finance Group</a> | <a href="https://www.jakenfinancegroup.com/privacy" target="_blank" style="color: #EDEDED;">Privacy Policy</a></small></p>
+        </div>
+    </footer>
 
     <!-- Load Application Module -->
     <script type="module" src="/js/app.js"></script>

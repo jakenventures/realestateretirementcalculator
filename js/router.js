@@ -129,53 +129,77 @@ class Router {
     }
 
     renderArticlesPage() {
+        // Hide homepage sections
+        const hero = document.querySelector('.hero');
+        const features = document.querySelector('.features');
+        const ctaSection = document.querySelector('.cta-section');
+        
+        if (hero) hero.style.display = 'none';
+        if (features) features.style.display = 'none';
+        if (ctaSection) ctaSection.style.display = 'none';
+
+        // Show calculator section (used as content container)
         const calculatorSection = document.querySelector('.calculator-section');
-        if (!calculatorSection) return;
+        if (calculatorSection) {
+            calculatorSection.style.display = 'block';
+            
+            // Hide calculator card and results
+            const calculatorCard = calculatorSection.querySelector('.calculator-card');
+            const resultsContainer = document.getElementById('results-container');
+            if (calculatorCard) calculatorCard.style.display = 'none';
+            if (resultsContainer) resultsContainer.style.display = 'none';
 
-        // Hide calculator and results sections
-        const calculatorCard = calculatorSection.querySelector('.calculator-card');
-        const resultsContainer = document.getElementById('results-container');
-        if (calculatorCard) calculatorCard.style.display = 'none';
-        if (resultsContainer) resultsContainer.style.display = 'none';
+            // Create or update articles section
+            let articlesSection = document.querySelector('.articles-page');
+            if (!articlesSection) {
+                articlesSection = document.createElement('div');
+                articlesSection.className = 'articles-page';
+                articlesSection.style.padding = '4rem 0';
+                calculatorSection.appendChild(articlesSection);
+            }
 
-        // Create or update articles section
-        let articlesSection = document.querySelector('.articles-page');
-        if (!articlesSection) {
-            articlesSection = document.createElement('div');
-            articlesSection.className = 'articles-page';
-            calculatorSection.appendChild(articlesSection);
+            articlesSection.innerHTML = renderArticles();
+            articlesSection.style.display = 'block';
         }
-
-        articlesSection.innerHTML = renderArticles();
-        articlesSection.style.display = 'block';
-
-        // Update hero
-        this.updateHeroSection({
-            h1: 'Real Estate Investment Articles',
-            subtitle: 'Comprehensive guides, strategies, and market analysis for real estate investors.'
-        });
     }
 
     renderArticlePage(articleSlug) {
+        // Hide homepage sections
+        const hero = document.querySelector('.hero');
+        const features = document.querySelector('.features');
+        const ctaSection = document.querySelector('.cta-section');
+        
+        if (hero) hero.style.display = 'none';
+        if (features) features.style.display = 'none';
+        if (ctaSection) ctaSection.style.display = 'none';
+
+        // Show calculator section (used as content container)
         const calculatorSection = document.querySelector('.calculator-section');
-        if (!calculatorSection) return;
+        if (calculatorSection) {
+            calculatorSection.style.display = 'block';
+            
+            // Hide calculator card and results
+            const calculatorCard = calculatorSection.querySelector('.calculator-card');
+            const resultsContainer = document.getElementById('results-container');
+            if (calculatorCard) calculatorCard.style.display = 'none';
+            if (resultsContainer) resultsContainer.style.display = 'none';
 
-        // Hide calculator and results sections
-        const calculatorCard = calculatorSection.querySelector('.calculator-card');
-        const resultsContainer = document.getElementById('results-container');
-        if (calculatorCard) calculatorCard.style.display = 'none';
-        if (resultsContainer) resultsContainer.style.display = 'none';
+            // Hide articles list if shown
+            const articlesSection = document.querySelector('.articles-page');
+            if (articlesSection) articlesSection.style.display = 'none';
 
-        // Create or update article section
-        let articleSection = document.querySelector('.article-page');
-        if (!articleSection) {
-            articleSection = document.createElement('div');
-            articleSection.className = 'article-page';
-            calculatorSection.appendChild(articleSection);
+            // Create or update article section
+            let articleSection = document.querySelector('.article-page');
+            if (!articleSection) {
+                articleSection = document.createElement('div');
+                articleSection.className = 'article-page';
+                articleSection.style.padding = '4rem 0';
+                calculatorSection.appendChild(articleSection);
+            }
+
+            articleSection.innerHTML = renderArticle(articleSlug);
+            articleSection.style.display = 'block';
         }
-
-        articleSection.innerHTML = renderArticle(articleSlug);
-        articleSection.style.display = 'block';
     }
 
     handle404() {
