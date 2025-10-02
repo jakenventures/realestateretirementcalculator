@@ -98,19 +98,48 @@ class Router {
 
         // Control calculator section visibility
         const calculatorSection = document.querySelector('.calculator-section');
+        const calculatorCard = calculatorSection?.querySelector('.calculator-card');
+        const resultsContainer = document.getElementById('results-container');
         const hero = document.querySelector('.hero');
         const features = document.querySelector('.features');
         const ctaSection = document.querySelector('.cta-section');
 
+        // Hide any dynamically created sections
+        const articlesSection = document.querySelector('.articles-page');
+        const articleSection = document.querySelector('.article-page');
+        if (articlesSection) articlesSection.style.display = 'none';
+        if (articleSection) articleSection.style.display = 'none';
+
         if (this.currentRoute === '/retirement-calculator') {
             // Show calculator, hide homepage sections
             if (calculatorSection) calculatorSection.style.display = 'block';
+            if (calculatorCard) calculatorCard.style.display = 'block';
+            if (resultsContainer) resultsContainer.style.display = 'none'; // Hide until calculation runs
             if (hero) hero.style.display = 'none';
             if (features) features.style.display = 'none';
             if (ctaSection) ctaSection.style.display = 'none';
+            
+            // Ensure form is visible and functional
+            const form = document.getElementById('calculator-form');
+            if (form) {
+                form.style.display = 'block';
+                
+                // Re-attach event listener if needed
+                form.onsubmit = (e) => {
+                    e.preventDefault();
+                    if (typeof window.calculateRetirement === 'function') {
+                        console.log('🧮 Running calculator...');
+                        window.calculateRetirement();
+                    } else {
+                        console.error('❌ calculateRetirement function not found');
+                    }
+                };
+            }
         } else if (this.currentRoute === '/' || this.currentRoute === '') {
             // Show homepage sections, hide calculator
             if (calculatorSection) calculatorSection.style.display = 'none';
+            if (calculatorCard) calculatorCard.style.display = 'none';
+            if (resultsContainer) resultsContainer.style.display = 'none';
             if (hero) hero.style.display = 'block';
             if (features) features.style.display = 'block';
             if (ctaSection) ctaSection.style.display = 'block';

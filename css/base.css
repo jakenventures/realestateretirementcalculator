@@ -1,2 +1,461 @@
-/* Critical styling loaded inline in index.html */
-/* This file is for additional base styles if needed */
+/* Real Estate Retirement Calculator - Base Styles */
+/* Modern, responsive styling for calculator and forms */
+
+/* Form Layout */
+.form-section {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: #FAFAFA;
+    border-radius: 12px;
+    border: 1px solid #E0E0E0;
+}
+
+.form-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+    font-weight: 600;
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.form-group input[type="number"],
+.form-group input[type="range"] {
+    padding: 0.75rem;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background: white;
+}
+
+.form-group input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(255, 211, 0, 0.1);
+}
+
+.form-group input[type="range"] {
+    padding: 0;
+    height: 8px;
+    background: linear-gradient(to right, var(--primary) 0%, #E0E0E0 0%);
+    -webkit-appearance: none;
+}
+
+.form-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.form-group input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Metric Cards */
+.metric-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    text-align: center;
+    border-top: 4px solid var(--primary);
+    transition: transform 0.3s;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+.metric-card h4 {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.metric-card .metric-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--ink);
+}
+
+/* Charts */
+.chart-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.chart-container h3 {
+    margin-bottom: 1rem;
+    color: var(--ink);
+    font-size: 1.25rem;
+}
+
+.chart-container canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Table Styling */
+.table-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.table-container h3 {
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container th {
+    background: var(--ink);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.table-container td {
+    padding: 1rem;
+    border-bottom: 1px solid #E0E0E0;
+    color: #333;
+}
+
+.table-container tbody tr:hover {
+    background: #FAFAFA;
+}
+
+/* Scenario Cards */
+.scenario-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border-left: 4px solid var(--primary);
+}
+
+.scenario-card h4 {
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+    font-size: 1rem;
+}
+
+.scenario-card p {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Articles Styling */
+.articles-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.articles-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.articles-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--ink);
+}
+
+.articles-header p {
+    font-size: 1.25rem;
+    color: #666;
+}
+
+.category-section {
+    margin-bottom: 4rem;
+}
+
+.category-section h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.category-section > p {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.articles-cta {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--primary);
+    border-radius: 12px;
+    margin-top: 4rem;
+}
+
+.articles-cta h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.articles-cta p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+}
+
+/* Article Page */
+.article-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.article-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #E0E0E0;
+}
+
+.back-link {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.back-link:hover {
+    color: var(--primary);
+}
+
+.article-header {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.category-badge {
+    display: inline-block;
+    background: var(--primary);
+    color: var(--ink);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.article-title {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--ink);
+}
+
+.article-subtitle {
+    font-size: 1.25rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+.article-content {
+    background: white;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    line-height: 1.8;
+}
+
+.article-content h2 {
+    font-size: 2rem;
+    margin: 2rem 0 1rem 0;
+    color: var(--ink);
+}
+
+.article-content h3 {
+    font-size: 1.5rem;
+    margin: 1.5rem 0 1rem 0;
+    color: var(--ink);
+}
+
+.article-content h4 {
+    font-size: 1.25rem;
+    margin: 1rem 0 0.5rem 0;
+    color: var(--ink);
+}
+
+.article-content p {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.article-content ul,
+.article-content ol {
+    margin: 1rem 0 1rem 2rem;
+}
+
+.article-content li {
+    margin-bottom: 0.5rem;
+}
+
+.article-cta-section {
+    background: var(--primary);
+    padding: 3rem;
+    border-radius: 12px;
+    text-align: center;
+    margin: 3rem 0;
+}
+
+.article-cta-section h3 {
+    margin-bottom: 1rem;
+}
+
+.related-articles {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid #E0E0E0;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.related-article {
+    background: #FAFAFA;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.related-article h4 {
+    margin-bottom: 0.5rem;
+}
+
+.related-article h4 a {
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.related-article h4 a:hover {
+    color: var(--primary);
+}
+
+.related-article p {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+.read-time {
+    font-size: 0.85rem;
+    color: #999;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-section {
+        padding: 1.5rem;
+    }
+    
+    .metric-card .metric-value {
+        font-size: 1.5rem;
+    }
+    
+    .chart-container {
+        padding: 1rem;
+    }
+    
+    .table-container {
+        padding: 1rem;
+        overflow-x: auto;
+    }
+    
+    .article-content {
+        padding: 1.5rem;
+    }
+    
+    .article-title {
+        font-size: 2rem;
+    }
+    
+    .related-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Loading States */
+.btn.loading {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+}
+
+.btn.loading::after {
+    content: "";
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--ink);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: translateY(-50%) rotate(360deg); }
+}
